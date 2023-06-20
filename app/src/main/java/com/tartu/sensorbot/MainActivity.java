@@ -1,24 +1,26 @@
 package com.tartu.sensorbot;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tartu.sensorbot.message.Message;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText inputField;
-    private ImageButton sendButton;
-    private RecyclerView chatRecyclerView;
+
+    private final List<Message> messages = new ArrayList<>();
     private MessageAdapter messageAdapter;
 
     @Override
@@ -26,60 +28,55 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        inputField = findViewById(R.id.input_field);
-        sendButton = findViewById(R.id.send_button);
-        chatRecyclerView = findViewById(R.id.chat_recycler_view);
+        EditText inputField = findViewById(R.id.input_field);
+        ImageButton sendButton = findViewById(R.id.send_button);
+        ImageView infoButton = findViewById(R.id.info_icon);
+        ImageView historyButton = findViewById(R.id.history_icon);
+        RecyclerView recyclerView = findViewById(R.id.chat_recycler_view);
 
-        messageAdapter = new MessageAdapter(new ArrayList<>());
-        chatRecyclerView.setAdapter(messageAdapter);
+        messageAdapter = new MessageAdapter(messages);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(messageAdapter);
 
-        inputField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                sendButton.setEnabled(!s.toString().trim().isEmpty());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+        updateUI();
 
         sendButton.setOnClickListener(v -> {
-            String message = inputField.getText().toString();
-            sendMessage(message);
-            inputField.setText("");
+            String userMessage = inputField.getText().toString();
+            if (!userMessage.isEmpty()) {
+                messages.add(new Message(userMessage, false));
+                messageAdapter.notifyDataSetChanged();
+                inputField.setText("");
+                updateUI();
+            }
         });
 
-        ImageView infoIcon = findViewById(R.id.info_icon);
-        infoIcon.setOnClickListener(v -> showInfoModal());
-
-        ImageView historyIcon = findViewById(R.id.history_icon);
-        historyIcon.setOnClickListener(v -> openHistoryPage());
+        infoButton.setOnClickListener(v -> showInfoModal());
+        historyButton.setOnClickListener(v -> openHistoryPage());
     }
 
-    private void sendMessage(String message) {
-        // Add the message to the adapter and notify it of the change
-        messageAdapter.addMessage(new Message(message, true));
-        messageAdapter.notifyDataSetChanged();
+    private void updateUI() {
+        TextView placeholderText = findViewById(R.id.placeholder_text);
+        RecyclerView recyclerView = findViewById(R.id.chat_recycler_view);
+
+        if (messages.isEmpty()) {
+            placeholderText.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            placeholderText.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void showInfoModal() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Information")
-                .setMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed accumsan congue enim et blandit.")
-                .setPositiveButton("Close", (dialog, id) -> {
-                    // User clicked the Close button
-                    dialog.dismiss();
-                });
-        builder.create().show();
+        new AlertDialog.Builder(this)
+                .setTitle("Information")
+                .setMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
     }
 
     private void openHistoryPage() {
-        // Open the history page
+//        Intent intent = new Intent(this, HistoryActivity.class);
+//        startActivity(intent);
     }
 }
-
