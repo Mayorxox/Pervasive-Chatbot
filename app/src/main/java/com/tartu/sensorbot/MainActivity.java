@@ -3,8 +3,8 @@ package com.tartu.sensorbot;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private EditText inputField;
-    private Button sendButton;
+    private ImageButton sendButton;
     private RecyclerView chatRecyclerView;
     private MessageAdapter messageAdapter;
 

@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#466896"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp">
+        android:padding="15dp">
 
         <ImageView
             android:id="@+id/info_icon"
@@ -40,20 +39,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@drawable/input_wrapper"
+        android:padding="25px"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/input_field"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:hint="Start conversation" />
+            android:layout_marginRight="15px"
+            android:background="@drawable/input_background"
+            android:hint="Start conversation"
+            android:padding="8dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/send_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Send"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="10dp"
+            android:src="@drawable/ic_send"
+            android:background="@drawable/button_background"
+            android:scaleType="center"
             android:enabled="false" />
     </LinearLayout>
 </RelativeLayout>
