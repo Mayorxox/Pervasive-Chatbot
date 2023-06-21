@@ -1,10 +1,14 @@
 package com.tartu.sensorbot;
 
-import android.view.LayoutInflater;
+import android.app.Activity;
+import android.content.Context;
+import android.util.DisplayMetrics;
+ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tartu.sensorbot.message.Message;
@@ -14,22 +18,37 @@ import java.util.List;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
     private final List<Message> messages;
 
-    public MessageAdapter(List<Message> messages) {
+    private static int screenWidth;
+
+    public MessageAdapter(List<Message> messages, Context context) {
         this.messages = messages;
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        screenWidth = displayMetrics.widthPixels;
     }
 
     @Override
-    public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.message_item, parent, false);
+    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
+        if (viewType == 0) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_item_user, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_item_bot, parent, false);
+        }
         return new MessageViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MessageViewHolder holder, int position) {
+    public int getItemViewType(int position) {
+        Message message = messages.get(position);
+        return message.isUser() ? 0 : 1;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message message = messages.get(position);
         holder.messageTextView.setText(message.getText());
-        // You'd also set the appearance of the message based on whether it's a user or bot message
     }
 
     @Override
@@ -46,7 +65,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
         public MessageViewHolder(View itemView) {
             super(itemView);
-            messageTextView = itemView.findViewById(R.id.message_text_view);
+            messageTextView = itemView.findViewById(R.id.message_text);
+            messageTextView.setMaxWidth((int) (screenWidth * 0.75));
         }
     }
 }

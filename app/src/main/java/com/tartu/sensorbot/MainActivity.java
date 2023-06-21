@@ -1,6 +1,5 @@
 package com.tartu.sensorbot;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -34,18 +33,20 @@ public class MainActivity extends AppCompatActivity {
         ImageView historyButton = findViewById(R.id.history_icon);
         RecyclerView recyclerView = findViewById(R.id.chat_recycler_view);
 
-        messageAdapter = new MessageAdapter(messages);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        messageAdapter = new MessageAdapter(messages, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
         recyclerView.setAdapter(messageAdapter);
+        int verticalSpaceHeight = getResources().getDimensionPixelSize(R.dimen.vertical_space_height);
+        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(verticalSpaceHeight));
 
         updateUI();
 
         sendButton.setOnClickListener(v -> {
             String userMessage = inputField.getText().toString();
             if (!userMessage.isEmpty()) {
-                messages.add(new Message(userMessage, false));
-                messageAdapter.notifyDataSetChanged();
+                messages.add(0, new Message(userMessage, true));
                 inputField.setText("");
+                sendBotMessage();
                 updateUI();
             }
         });
@@ -73,6 +74,11 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
+    }
+
+    private void sendBotMessage() {
+        messages.add(0, new Message("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", false));
+        messageAdapter.notifyDataSetChanged();
     }
 
     private void openHistoryPage() {
