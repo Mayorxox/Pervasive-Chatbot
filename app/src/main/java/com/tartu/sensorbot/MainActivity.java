@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private MessageAdapter messageAdapter;
     private ImageView infoButton;
     private RecyclerView recyclerView;
+    private ChatBot chatBot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         infoButton = findViewById(R.id.info_icon);
         ImageView historyButton = findViewById(R.id.history_icon);
         recyclerView = findViewById(R.id.chat_recycler_view);
-
-        messageAdapter = new MessageAdapter(messages, this);
+        chatBot = new ChatBot();
+        messageAdapter = new MessageAdapter(messages, chatBot, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
         recyclerView.setAdapter(messageAdapter);
         int verticalSpaceHeight = getResources().getDimensionPixelSize(R.dimen.vertical_space_height);
@@ -46,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
         sendButton.setOnClickListener(v -> {
             String userMessage = inputField.getText().toString();
             if (!userMessage.isEmpty()) {
-                messages.add(0, new Message(userMessage, true));
+                messages.add(0, new Message(userMessage, true, false));
                 inputField.setText("");
-                sendBotMessage();
+                sendBotMessage(userMessage);
                 updateUI();
             }
         });
@@ -99,8 +100,17 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void sendBotMessage() {
-        messages.add(0, new Message("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", false));
+
+    private void sendBotMessage(String userMessage) {
+        String botMessageText = chatBot.getResponse(userMessage);
+        messages.add(0, new Message(botMessageText, false, false));
+
+        if (botMessageText.contains("suggestions")) {
+            for (String suggestion : chatBot.getSuggestions()) {
+                messages.add(0, new Message(suggestion, false, true));
+            }
+        }
+
         messageAdapter.notifyDataSetChanged();
     }
 
