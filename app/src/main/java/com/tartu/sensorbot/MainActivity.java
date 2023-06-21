@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     private final List<Message> messages = new ArrayList<>();
     private MessageAdapter messageAdapter;
+    private ImageView infoButton;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
         EditText inputField = findViewById(R.id.input_field);
         ImageButton sendButton = findViewById(R.id.send_button);
-        ImageView infoButton = findViewById(R.id.info_icon);
+        infoButton = findViewById(R.id.info_icon);
         ImageView historyButton = findViewById(R.id.history_icon);
-        RecyclerView recyclerView = findViewById(R.id.chat_recycler_view);
+        recyclerView = findViewById(R.id.chat_recycler_view);
 
         messageAdapter = new MessageAdapter(messages, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
@@ -51,20 +53,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        infoButton.setOnClickListener(v -> showInfoModal());
+        infoButton.setOnClickListener(v -> {
+            if (!messages.isEmpty()) {
+                showClearConversationModal();
+            } else {
+                showInfoModal();
+            }
+        });
         historyButton.setOnClickListener(v -> openHistoryPage());
     }
 
     private void updateUI() {
         TextView placeholderText = findViewById(R.id.placeholder_text);
-        RecyclerView recyclerView = findViewById(R.id.chat_recycler_view);
 
         if (messages.isEmpty()) {
             placeholderText.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
+            infoButton.setImageResource(R.drawable.ic_info);
         } else {
             placeholderText.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
+            infoButton.setImageResource(R.drawable.ic_bin);
         }
     }
 
@@ -73,6 +82,20 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle("Information")
                 .setMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
                 .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
+
+    private void showClearConversationModal() {
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Clear chat")
+                .setMessage("Are you sure you want to clear the chat?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    messages.clear();
+                    messageAdapter.notifyDataSetChanged();
+                    updateUI();
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
 
