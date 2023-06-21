@@ -1,4 +1,4 @@
-package com.tartu.sensorbot;
+package com.tartu.sensorbot.bot;
 
 import java.util.ArrayList;
 import java.util.List;

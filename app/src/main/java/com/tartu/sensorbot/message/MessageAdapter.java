@@ -1,4 +1,4 @@
-package com.tartu.sensorbot;
+package com.tartu.sensorbot.message;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tartu.sensorbot.message.Message;
+import com.tartu.sensorbot.R;
+import com.tartu.sensorbot.bot.ChatBot;
 
 import java.util.List;
 

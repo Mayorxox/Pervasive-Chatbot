@@ -1,4 +1,4 @@
-package com.tartu.sensorbot;
+package com.tartu.sensorbot.decoration;
 
 import android.graphics.Rect;
 import android.view.View;

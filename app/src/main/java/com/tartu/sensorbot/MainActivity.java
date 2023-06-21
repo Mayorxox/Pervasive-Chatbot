@@ -12,7 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tartu.sensorbot.bot.ChatBot;
+import com.tartu.sensorbot.decoration.VerticalSpaceItemDecoration;
 import com.tartu.sensorbot.message.Message;
+import com.tartu.sensorbot.message.MessageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
