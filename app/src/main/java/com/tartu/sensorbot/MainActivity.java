@@ -1,6 +1,7 @@
 package com.tartu.sensorbot;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,10 +20,13 @@ import com.tartu.sensorbot.message.MessageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     private final List<Message> messages = new ArrayList<>();
+    private final Random random = new Random();
+    private final Handler handler = new Handler();
     private MessageAdapter messageAdapter;
     private ImageView infoButton;
     private RecyclerView recyclerView;
@@ -103,18 +107,31 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-
     private void sendBotMessage(String userMessage) {
         String botMessageText = chatBot.getResponse(userMessage);
-        messages.add(0, new Message(botMessageText, false, false));
+        final StringBuilder typedMessage = new StringBuilder();
+        final Message botMessage = new Message("", false, false);
 
-        if (botMessageText.contains("suggestions")) {
-            for (String suggestion : chatBot.getSuggestions()) {
-                messages.add(0, new Message(suggestion, false, true));
+        messages.add(0, botMessage);
+
+//  if (botMessageText.contains("suggestions")) {
+//      for (String suggestion : chatBot.getSuggestions()) {
+//          messages.add(0, new Message(suggestion, false, true));
+//      }
+//  }
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (typedMessage.length() < botMessageText.length()) {
+                    typedMessage.append(botMessageText.charAt(typedMessage.length()));
+                    botMessage.setText(typedMessage.toString());
+                    messageAdapter.notifyDataSetChanged();
+                    int delay = 30 + random.nextInt(150); // random delay between 50 and 250 milliseconds
+                    handler.postDelayed(this, delay);
+                }
             }
-        }
-
-        messageAdapter.notifyDataSetChanged();
+        });
     }
 
     private void openHistoryPage() {
