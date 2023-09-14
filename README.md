@@ -1,23 +1,31 @@
 ## Android Sensor Usage Chatbot App
-This Android app provides a chatbot interface for users to gather information about their phone's sensor usage. The chatbot provides mock responses to user queries.
+Chatbot App is an interactive mobile application that allows users to communicate with a chatbot, 
+getting responses in real-time. The app features two modes: "Pervasive chatbot condition" and 
+"Reference-chatbot condition", each providing a unique chatbot experience.
 
 ### Features
-- Chat interface: The app provides a simple chat interface for user-bot interaction. The user can type a message and receive a response from the bot.
-- Sensor usage information: The bot provides mock responses to user queries about their phone's sensor usage.
-- Information modal: The user can open an information modal by clicking the Information icon in the header. The modal contains some placeholder text.
-- Chat history page: The user can open a page displaying old chats by clicking the History icon in the header.
-
-### Usage
-Start a conversation: Open the app and type a message in the input field at the bottom of the screen. Click the Send button to send the message.
-
-Receive a response: After sending a message, you will receive a mock response from the bot. The response will appear in the chat area.
-
-Open the information modal: Click the Information icon in the header to open the information modal. The modal contains some placeholder text.
-
-Open the chat history page: Click the History icon in the header to open the chat history page. The page displays old chats.
+  **Interactive Chat Interface:** The app provides a simple chat interface for user-bot interaction. The user can type a message and receive a response from the bot.
+  **Two Modes:** Choose between "Pervasive chatbot condition" and "Reference-chatbot condition".
+  **Energy Saving Tips:** Get tips on saving energy based on your queries.
+  **Customizable Responses:** Based on the chosen condition, the chatbot generates unique responses.
 
 ### Installation
-To install the app, you will need an Android device running Android 4.1 (Jelly Bean) or higher. You can download the app from the Google Play Store.
+
+#### Prerequisites
+- Android SDK v30 (or newer)
+- Latest Android Build Tools 
+- Android Support Repository
+
+#### Getting Started
+1. Clone this repository: git clone https://github.com/tarlanhasanli/Android-sensor-bot.git
+2. Open the project in Android Studio.
+3. Sync the Gradle project and build the project.
+4. Run the app on an emulator or a physical device.
+
+### Usage
+
+1. **Select Mode:** On launching the app, select either "Pervasive chatbot condition" or "Reference-chatbot condition".
+2. **Chat:** Type in your questions or statements and get real-time responses from the chatbot.
 
 ### Development
 The app is developed in Java using Android Studio. It uses the following versions of the Android SDK tools:
@@ -25,3 +33,11 @@ The app is developed in Java using Android Studio. It uses the following version
 Java JDK: 11
 Android Gradle Plugin: 7.4.2
 Gradle: 7.5
+
+#### _To contribute to this project:_
+
+1. Fork the repository.
+2. Create a new branch (git checkout -b feature/YourFeatureName).
+3. Make your changes.
+4. Push to the branch (git push origin feature/YourFeatureName).
+5. Create a Pull Request.
