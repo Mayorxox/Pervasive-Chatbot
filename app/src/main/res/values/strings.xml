@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Sensorbot</string>
+    <string name="user">User</string>
+    <string name="chatbot">Chatbot</string>
+    <string name="confirm_offloading_button_text">Confirm offloading</string>
+    <string name="terms_and_conditions_text">By clicking this button you are accepting our terms and condition</string>
 </resources>
