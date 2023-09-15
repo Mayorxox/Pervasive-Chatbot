@@ -18,7 +18,7 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:text="Pervasive-chatbot"
-        android:backgroundTint="@android:color/background_light"
+        android:backgroundTint="@android:color/holo_blue_light"
         android:textColor="@android:color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/referenceButton"

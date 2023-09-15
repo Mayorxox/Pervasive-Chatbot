@@ -4,8 +4,10 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -57,14 +59,33 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
         int insertionPosition = Math.max(messageContainer.getChildCount() - 2, 0);
 
         for (int i = 0; i < steps.size(); i++) {
-            View stepView = LayoutInflater.from(messageContainer.getContext())
-                    .inflate(R.layout.step_item, messageContainer, false);
+            View stepView = LayoutInflater.from(messageContainer.getContext()).inflate(R.layout.step_item, messageContainer, false);
 
             ((TextView) stepView.findViewById(R.id.stepText)).setText(steps.get(i));
-            ((TextView) stepView.findViewById(R.id.time)).setText(times.get(i));
+            bindStepData(stepView, i >= times.size());
+            if (i < times.size()) {
+                ((TextView) stepView.findViewById(R.id.time)).setText(times.get(i));
+            }
 
             messageContainer.addView(stepView, insertionPosition);
             insertionPosition++;
+        }
+    }
+
+    private void bindStepData(View stepView, boolean onlyStep) {
+        ToggleButton toggleButton = stepView.findViewById(R.id.toggle);
+        TextView timeTextView = stepView.findViewById(R.id.time);
+        ImageView batteryIcon = stepView.findViewById(R.id.batteryIcon);
+
+
+        if (onlyStep) {
+            toggleButton.setVisibility(View.GONE);
+            batteryIcon.setVisibility(View.GONE);
+            timeTextView.setVisibility(View.GONE);
+        } else {
+            toggleButton.setVisibility(View.VISIBLE);
+            batteryIcon.setVisibility(View.VISIBLE);
+            timeTextView.setVisibility(View.VISIBLE);
         }
     }
 
