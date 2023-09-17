@@ -9,9 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tartu.sensorbot.chat.BotResponseGenerator;
-import com.tartu.sensorbot.chat.Message;
-import com.tartu.sensorbot.chat.MessageAdapter;
+import com.tartu.sensorbot.bot.BotMessageTemplates;
+import com.tartu.sensorbot.bot.BotResponseGenerator;
+import com.tartu.sensorbot.message.Message;
+import com.tartu.sensorbot.message.MessageAdapter;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class ChatActivity extends AppCompatActivity {
     private MessageAdapter messageAdapter;
     private BotResponseGenerator responseGenerator;
     private String condition;
+    private static final String CONDITION_INDENT_KEY = "condition";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         inputEditText = findViewById(R.id.inputEditText);
-        this.condition = getIntent().getStringExtra("condition");
+        this.condition = getIntent().getStringExtra(CONDITION_INDENT_KEY);
         responseGenerator = new BotResponseGenerator(condition);
 
         setUpChatRecyclerView();
@@ -44,7 +46,7 @@ public class ChatActivity extends AppCompatActivity {
         chatRecyclerView.setLayoutManager(getLinearLayoutManager());
 
         // send initial bot message
-        messageAdapter.addMessage("Hello, how can I help you today?", true);
+        messageAdapter.addMessage(BotMessageTemplates.INITIAL_BOT_MESSAGE, true);
     }
 
     private void handleSendButtonClickListener() {
@@ -61,7 +63,6 @@ public class ChatActivity extends AppCompatActivity {
     private void onSendButtonClick() {
         String userMessage = inputEditText.getText().toString().trim();
         if (!userMessage.isEmpty()) {
-            // Add user's message
             messageAdapter.addMessage(userMessage, false);
             inputEditText.setText("");
             simulateBotResponse(userMessage);

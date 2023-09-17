@@ -10,22 +10,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Step text" />
+        android:text=""/>
 
     <ToggleButton
         android:id="@+id/toggle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2 min" />
+        android:text=""/>
 
     <ImageView
         android:id="@+id/batteryIcon"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_battery" />
+        android:src="@drawable/ic_battery"
+        android:contentDescription="@string/battery_icon_description" />
 </LinearLayout>

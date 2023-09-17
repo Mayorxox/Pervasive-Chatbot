@@ -1,4 +1,4 @@
-package com.tartu.sensorbot.chat;
+package com.tartu.sensorbot.message;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Message {
 
-    public final String text;
-    public final int viewType;
+    private final String text;
+    private final int viewType;
     private List<String> steps = new ArrayList<>();
     private List<String> times = new ArrayList<>();
 

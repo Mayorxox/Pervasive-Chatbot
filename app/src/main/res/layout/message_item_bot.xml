@@ -12,7 +12,7 @@
         android:layout_height="24dp"
         android:layout_marginEnd="7.5dp"
         android:layout_gravity="center_vertical"
-        android:contentDescription="@string/chatbot"
+        android:contentDescription="@string/header_text"
         android:src="@drawable/ic_bot" />
 
     <androidx.cardview.widget.CardView

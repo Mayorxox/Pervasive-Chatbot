@@ -4,16 +4,15 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tartu.sensorbot.R;
+import com.tartu.sensorbot.message.Message;
 
 import java.util.List;
 import java.util.Objects;
@@ -43,58 +42,46 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
         messageTextView.setBackgroundColor(Color.WHITE);
         cardView.setCardBackgroundColor(Color.WHITE);
         messageContainer.setGravity(Gravity.END);
-        messageTextView.setText(message.text);
+        messageTextView.setText(message.getText());
     }
 
     public void bindComplexBotMessage(Message message) {
         if (messageContainer == null) {
             return;
         }
-        if (Objects.equals(condition, ChatbotCondition.reference)) {
-            messageContainer.removeAllViews();
-        }
+        messageContainer.removeAllViews();
 
         List<String> steps = message.getSteps();
         List<String> times = message.getTimes();
-        int insertionPosition = Math.max(messageContainer.getChildCount() - 2, 0);
 
+        LayoutInflater layoutInflater = LayoutInflater.from(messageContainer.getContext());
         for (int i = 0; i < steps.size(); i++) {
-            View stepView = LayoutInflater.from(messageContainer.getContext()).inflate(R.layout.step_item, messageContainer, false);
+            View stepView = layoutInflater.inflate(R.layout.step_item, messageContainer, false);
 
             ((TextView) stepView.findViewById(R.id.stepText)).setText(steps.get(i));
-            bindStepData(stepView, i >= times.size());
-            if (i < times.size()) {
-                ((TextView) stepView.findViewById(R.id.time)).setText(times.get(i));
-            }
+            ((TextView) stepView.findViewById(R.id.time)).setText(times.get(i));
 
-            messageContainer.addView(stepView, insertionPosition);
-            insertionPosition++;
+            messageContainer.addView(stepView);
         }
-    }
-
-    private void bindStepData(View stepView, boolean onlyStep) {
-        ToggleButton toggleButton = stepView.findViewById(R.id.toggle);
-        TextView timeTextView = stepView.findViewById(R.id.time);
-        ImageView batteryIcon = stepView.findViewById(R.id.batteryIcon);
-
-
-        if (onlyStep) {
-            toggleButton.setVisibility(View.GONE);
-            batteryIcon.setVisibility(View.GONE);
-            timeTextView.setVisibility(View.GONE);
-        } else {
-            toggleButton.setVisibility(View.VISIBLE);
-            batteryIcon.setVisibility(View.VISIBLE);
-            timeTextView.setVisibility(View.VISIBLE);
+        if (Objects.equals(condition, ChatbotCondition.pervasive)) {
+            View complexBotButtonView = layoutInflater.inflate(R.layout.complex_bot_pc_button, messageContainer, false);;
+            messageContainer.addView(complexBotButtonView);
+        } else if (Objects.nonNull(message.getText())) {
+            TextView textView = new TextView(messageContainer.getContext());
+            textView.setText(message.getText());
+            textView.setTextSize(14);
+            textView.setTextColor(Color.BLACK);
+            messageContainer.addView(textView);
         }
     }
 
     public void bindBotMessage(Message message) {
         this.setTextViewWidth();
-        messageTextView.setBackgroundColor(Color.parseColor("#ADD8E6"));
-        cardView.setCardBackgroundColor(Color.parseColor("#ADD8E6"));
+        int backgroundColor = messageContainer.getContext().getResources().getColor(R.color.bot_message_background);
+        messageTextView.setBackgroundColor(backgroundColor);
+        cardView.setCardBackgroundColor(backgroundColor);
         messageContainer.setGravity(Gravity.START);
-        messageTextView.setText(message.text);
+        messageTextView.setText(message.getText());
     }
 
     private void setTextViewWidth() {

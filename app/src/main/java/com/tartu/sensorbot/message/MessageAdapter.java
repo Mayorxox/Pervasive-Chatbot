@@ -1,4 +1,4 @@
-package com.tartu.sensorbot.chat;
+package com.tartu.sensorbot.message;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,6 +6,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.tartu.sensorbot.chat.ChatViewHolder;
+import com.tartu.sensorbot.chat.ChatViewHolderBinder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +25,13 @@ public class MessageAdapter extends RecyclerView.Adapter<ChatViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return messages.get(position).viewType;
+        return messages.get(position).getViewType();
     }
 
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int viewLayout = ChatViewHolderBinder.getViewLayout(viewType, condition);
+        int viewLayout = ChatViewHolderBinder.getViewLayout(viewType);
         View view = LayoutInflater.from(parent.getContext()).inflate(viewLayout, parent, false);
         return new ChatViewHolder(view, viewType, condition);
     }
@@ -51,9 +54,7 @@ public class MessageAdapter extends RecyclerView.Adapter<ChatViewHolder> {
     }
 
     public void addBotMessages(List<Message> newMessages) {
-        for (Message m : newMessages) {
-            addMessage(m);
-        }
+        newMessages.forEach(this::addMessage);
     }
 
     @Override
