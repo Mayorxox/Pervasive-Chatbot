@@ -15,13 +15,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button referenceButton = findViewById(R.id.referenceButton);
         Button pervasiveButton = findViewById(R.id.pervasiveButton);
+        Button referenceButton = findViewById(R.id.referenceButton);
         Intent intent = new Intent(this, ChatActivity.class);
 
-        pervasiveButton.setOnClickListener(v -> intent.putExtra("condition", ChatbotCondition.pervasive));
-        referenceButton.setOnClickListener(v -> intent.putExtra("condition", ChatbotCondition.reference));
+        pervasiveButton.setOnClickListener(v -> {
+            intent.putExtra("condition", ChatbotCondition.pervasive);
+            startActivity(intent);
+        });
 
-        startActivity(intent);
+        referenceButton.setOnClickListener(v -> {
+            intent.putExtra("condition", ChatbotCondition.reference);
+            startActivity(intent);
+        });
     }
 }

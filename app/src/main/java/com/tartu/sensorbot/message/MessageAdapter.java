@@ -25,6 +25,7 @@ public class MessageAdapter extends RecyclerView.Adapter<ChatViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
+        System.out.printf("\n######\nMessage2: %s\n\n", messages.get(position));
         return messages.get(position).getViewType();
     }
 

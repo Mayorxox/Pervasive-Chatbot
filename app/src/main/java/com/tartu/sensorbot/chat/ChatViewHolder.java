@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tartu.sensorbot.R;
 import com.tartu.sensorbot.message.Message;
+import com.tartu.sensorbot.message.MessageStep;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,31 +52,33 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
         }
         messageContainer.removeAllViews();
 
-        List<String> steps = message.getSteps();
-        List<String> times = message.getTimes();
+        List<MessageStep> steps = message.getSteps();
 
         LayoutInflater layoutInflater = LayoutInflater.from(messageContainer.getContext());
-        for (int i = 0; i < steps.size(); i++) {
+        steps.forEach(step -> {
             View stepView = layoutInflater.inflate(R.layout.step_item, messageContainer, false);
 
-            ((TextView) stepView.findViewById(R.id.stepText)).setText(steps.get(i));
-            ((TextView) stepView.findViewById(R.id.time)).setText(times.get(i));
+            ((TextView) stepView.findViewById(R.id.stepText)).setText(step.getInstruction());
+            ((TextView) stepView.findViewById(R.id.time)).setText(step.getTime());
 
             messageContainer.addView(stepView);
-        }
-        if (Objects.equals(condition, ChatbotCondition.pervasive)) {
-            View complexBotButtonView = layoutInflater.inflate(R.layout.complex_bot_pc_button, messageContainer, false);;
-            messageContainer.addView(complexBotButtonView);
-        } else if (Objects.nonNull(message.getText())) {
+        });
+
+        if (Objects.nonNull(message.getText()) && Objects.equals(condition, ChatbotCondition.reference)) {
             TextView textView = new TextView(messageContainer.getContext());
             textView.setText(message.getText());
             textView.setTextSize(14);
             textView.setTextColor(Color.BLACK);
             messageContainer.addView(textView);
         }
+        if (message.getSteps().size() > 0 && Objects.equals(condition, ChatbotCondition.pervasive)) {
+            View complexBotButtonView = layoutInflater.inflate(R.layout.complex_bot_pc_button, messageContainer, false);;
+            messageContainer.addView(complexBotButtonView);
+        }
     }
 
     public void bindBotMessage(Message message) {
+        System.out.printf("\n######\nMessage: %s\n\n", message);
         this.setTextViewWidth();
         int backgroundColor = messageContainer.getContext().getResources().getColor(R.color.bot_message_background);
         messageTextView.setBackgroundColor(backgroundColor);
