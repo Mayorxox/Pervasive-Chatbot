@@ -6,12 +6,6 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <CheckBox
-        android:id="@+id/termsCheckbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/terms_and_conditions_text" />
-
     <Button
         android:id="@+id/confirmButton"
         android:layout_width="wrap_content"

@@ -4,8 +4,6 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -74,8 +72,6 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
     if (message.getSteps().size() > 0 && Objects.equals(condition, ChatbotCondition.pervasive)) {
       View complexBotButtonView = layoutInflater.inflate(R.layout.complex_bot_pc_button,
           messageContainer, false);
-      ;
-      setCheckboxListener(complexBotButtonView);
       messageContainer.addView(complexBotButtonView);
     }
   }
@@ -94,20 +90,5 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
     int maxWidth = (int) (0.8 * itemView.getContext().getResources()
         .getDisplayMetrics().widthPixels);
     messageTextView.setMaxWidth(maxWidth);
-  }
-
-  private void setCheckboxListener(View view) {
-    CheckBox termsCheckbox = view.findViewById(R.id.termsCheckbox);
-    Button confirmButton = view.findViewById(R.id.confirmButton);
-
-    termsCheckbox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-      confirmButton.setEnabled(isChecked);
-
-      if (isChecked) {
-        confirmButton.setBackgroundResource(R.color.blue_700);
-      } else {
-        confirmButton.setBackgroundResource(R.color.darker_gray);
-      }
-    });
   }
 }

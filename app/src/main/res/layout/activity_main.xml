@@ -12,33 +12,77 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Pervasive-chatbot condition Button -->
-    <Button
-        android:id="@+id/pervasiveButton"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:text="Pervasive-chatbot"
-        android:backgroundTint="@android:color/holo_blue_light"
-        android:textColor="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/referenceButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintVertical_bias="0.5"/>
+    <RadioGroup
+      android:id="@+id/radioGroup"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintBottom_toTopOf="@+id/userManualText"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
 
-    <!-- Reference-chatbot condition Button -->
+        <RadioButton
+          android:id="@+id/pervasiveRadioButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/pervasive_chatbot_button_text" />
+
+        <RadioButton
+          android:id="@+id/referenceRadioButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/reference_chatbot_button_text" />
+    </RadioGroup>
+
+    <!-- User Manual Text -->
+    <TextView
+      android:id="@+id/userManualText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="16dp"
+      android:textColor="#9E9E9E"
+      android:text="User manual"
+      app:layout_constraintBottom_toTopOf="@id/termsContainer"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Terms and Conditions Checkbox -->
+    <LinearLayout
+      android:id="@+id/termsContainer"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:layout_marginBottom="16dp"
+      app:layout_constraintBottom_toTopOf="@id/nextButton"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent">
+
+        <CheckBox
+          android:id="@+id/termsCheckbox"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:text="" />
+
+        <TextView
+          android:id="@+id/termsLink"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="#9E9E9E"
+          android:text="By clicking this you are accepting our "/>
+    </LinearLayout>
+
+
+    <!-- Next Button -->
     <Button
-        android:id="@+id/referenceButton"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:text="Reference-chatbot"
-        android:backgroundTint="@android:color/holo_blue_dark"
-        android:textColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/pervasiveButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+      android:id="@+id/nextButton"
+      android:layout_width="0dp"
+      android:layout_height="60dp"
+      android:text="Next"
+      android:textColor="@android:color/white"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
