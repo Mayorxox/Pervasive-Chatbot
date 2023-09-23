@@ -1,12 +1,13 @@
 <resources>
-    <string name="app_name">Sensorbot</string>
-    <string name="user">User</string>
-    <string name="confirm_offloading_button_text">Confirm offloading</string>
-    <string name="terms_and_conditions_text">By clicking this you are accepting our terms and condition</string>
-    <string name="header_text">Chatbot</string>
-    <string name="history_icon_description">history icon</string>
-    <string name="header_robot_icon_description">header robot icon</string>
-    <string name="battery_icon_description">Battery icon</string>
+  <string name="app_name">Sensorbot</string>
+  <string name="user">User</string>
+  <string name="confirm_offloading_button_text">Confirm offloading</string>
+  <string name="header_text">Chatbot</string>
+  <string name="history_icon_description">history icon</string>
+  <string name="header_robot_icon_description">header robot icon</string>
+  <string name="battery_icon_description">battery icon</string>
   <string name="reference_chatbot_button_text">Reference-chatbot</string>
-    <string name="pervasive_chatbot_button_text">Pervasive-chatbot</string>
+  <string name="pervasive_chatbot_button_text">Pervasive-chatbot</string>
+  <string name="user_manual_text"><u>User manual</u></string>
+  <string name="next_button_text">Next</string>
 </resources>

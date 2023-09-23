@@ -1,88 +1,89 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <include
+    android:id="@+id/includedHeader"
+    layout="@layout/header"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
 
-    <include
-        android:id="@+id/includedHeader"
-        layout="@layout/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+  <RadioGroup
+    android:id="@+id/radioGroup"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintBottom_toTopOf="@+id/userManualText"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-    <RadioGroup
-      android:id="@+id/radioGroup"
+    <RadioButton
+      android:id="@+id/pervasiveRadioButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:orientation="vertical"
-      app:layout_constraintBottom_toTopOf="@+id/userManualText"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent">
+      android:text="@string/pervasive_chatbot_button_text" />
 
-        <RadioButton
-          android:id="@+id/pervasiveRadioButton"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/pervasive_chatbot_button_text" />
+    <RadioButton
+      android:id="@+id/referenceRadioButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/reference_chatbot_button_text" />
+  </RadioGroup>
 
-        <RadioButton
-          android:id="@+id/referenceRadioButton"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/reference_chatbot_button_text" />
-    </RadioGroup>
+  <!-- User Manual Text -->
+  <TextView
+    android:id="@+id/userManualText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:textColor="#9E9E9E"
+    android:text="@string/user_manual_text"
+    android:textSize="18sp"
+    app:layout_constraintBottom_toTopOf="@id/termsContainer"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- User Manual Text -->
+  <!-- Terms and Conditions Checkbox -->
+  <LinearLayout
+    android:id="@+id/termsContainer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="16dp"
+    app:layout_constraintBottom_toTopOf="@id/nextButton"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <CheckBox
+      android:id="@+id/termsCheckbox"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical"
+      android:text="" />
+
     <TextView
-      android:id="@+id/userManualText"
+      android:id="@+id/termsLink"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="16dp"
       android:textColor="#9E9E9E"
-      android:text="User manual"
-      app:layout_constraintBottom_toTopOf="@id/termsContainer"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- Terms and Conditions Checkbox -->
-    <LinearLayout
-      android:id="@+id/termsContainer"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      android:layout_marginBottom="16dp"
-      app:layout_constraintBottom_toTopOf="@id/nextButton"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent">
-
-        <CheckBox
-          android:id="@+id/termsCheckbox"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center_vertical"
-          android:text="" />
-
-        <TextView
-          android:id="@+id/termsLink"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:textColor="#9E9E9E"
-          android:text="By clicking this you are accepting our "/>
-    </LinearLayout>
+      android:text="" />
+  </LinearLayout>
 
 
-    <!-- Next Button -->
-    <Button
-      android:id="@+id/nextButton"
-      android:layout_width="0dp"
-      android:layout_height="60dp"
-      android:text="Next"
-      android:textColor="@android:color/white"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
+  <!-- Next Button -->
+  <Button
+    android:id="@+id/nextButton"
+    android:layout_width="0dp"
+    android:layout_height="60dp"
+    android:text="@string/next_button_text"
+    android:textColor="@android:color/white"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
