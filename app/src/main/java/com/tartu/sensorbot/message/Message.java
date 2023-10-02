@@ -1,5 +1,6 @@
 package com.tartu.sensorbot.message;
 
+import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,6 +40,7 @@ public class Message {
     return steps;
   }
 
+  @NonNull
   @Override
   public String toString() {
     return "Message{" +

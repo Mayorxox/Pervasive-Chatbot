@@ -21,7 +21,7 @@ public class BotQuestionMatcher {
   public BotQuestionMatcher(InputStream tokenizerModelStream) {
     try {
       this.tokenizer = new TokenizerME(new TokenizerModel(tokenizerModelStream));
-      this.mockQuestions = new ArrayList<>(BotMessageTemplates.MOCK_QUESTIONS.keySet());
+      this.mockQuestions = new ArrayList<>(BotMockQuestions.MOCK_QUESTIONS.keySet());
     } catch (Exception e) {
       throw new RuntimeException("Failed to initialize.", e);
     }
@@ -29,10 +29,10 @@ public class BotQuestionMatcher {
 
   private static String getWordFromDictionary(String word) {
     LevenshteinDistance ld = new LevenshteinDistance(2);
-    if (BotMessageTemplates.DICTIONARY.contains(word)) {
+    if (BotMockQuestions.DICTIONARY.contains(word)) {
       return word;
     }
-    return BotMessageTemplates.DICTIONARY.stream()
+    return BotMockQuestions.DICTIONARY.stream()
         .min(Comparator.comparingInt(target -> ld.apply(word, target)))
         .orElse(word);
   }
@@ -59,7 +59,7 @@ public class BotQuestionMatcher {
     for (String s : tokens) {
       String token = s.toLowerCase();
       List<String> synonyms = new ArrayList<>(
-          Objects.requireNonNull(BotMessageTemplates.SYNONYM_MAP.getOrDefault(token, Set.of(token))));
+          Objects.requireNonNull(BotMockQuestions.SYNONYM_MAP.getOrDefault(token, Set.of(token))));
       normalizedTokens.addAll(synonyms);
     }
     return normalizedTokens;
