@@ -155,5 +155,4 @@ public class MainActivity extends AppCompatActivity {
     dialog.setCanceledOnTouchOutside(true);
     dialog.show();
   }
-
 }
