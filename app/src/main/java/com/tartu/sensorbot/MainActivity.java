@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
     // SpannableString for clickable "terms and conditions"
     // SpannableString for the full text
-    SpannableString spannableString = new SpannableString("By clicking this you are accepting our terms and conditions");
+    SpannableString spannableString = new SpannableString(
+        "By clicking this you are accepting our terms and conditions");
     ClickableSpan clickableSpan = new ClickableSpan() {
       @Override
       public void onClick(@NonNull View widget) {
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     spannableString.setSpan(clickableSpan, startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
     termsLink.setText(spannableString);
-    termsLink.setMovementMethod(LinkMovementMethod.getInstance());  // This line is important to make the link clickable
+    termsLink.setMovementMethod(LinkMovementMethod.getInstance());
   }
 
   private void initializeUserManual() {

@@ -30,18 +30,18 @@ public class MessageStep {
 
   @Override
   public boolean equals(Object o) {
-      if (this == o) {
-          return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-          return false;
-      }
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
 
     MessageStep that = (MessageStep) o;
 
-      if (timeInMinutes != that.timeInMinutes) {
-          return false;
-      }
+    if (timeInMinutes != that.timeInMinutes) {
+      return false;
+    }
     return Objects.equals(instruction, that.instruction);
   }
 

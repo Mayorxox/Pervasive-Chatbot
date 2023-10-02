@@ -1,17 +1,33 @@
 package com.tartu.sensorbot.bot;
 
+import android.content.Context;
+import androidx.test.core.app.ApplicationProvider;
 import com.tartu.sensorbot.chat.ChatbotCondition;
 import com.tartu.sensorbot.message.Message;
 import com.tartu.sensorbot.message.MessageStep;
+import java.io.IOException;
 import java.util.List;
 import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
+@RunWith(RobolectricTestRunner.class)
+@Config(manifest = Config.NONE)
 public class BotResponseGeneratorTest extends TestCase {
 
-  public void testGenerateResponseWithReference() {
+  private Context context;
+
+  @Before
+  public void setUp() {
+    context = ApplicationProvider.getApplicationContext();
+  }
+
+  public void testGenerateResponseWithReference() throws IOException {
     // Given
     String userQuery = "How to save energy";
-    BotResponseGenerator generator = new BotResponseGenerator(ChatbotCondition.reference);
+    BotResponseGenerator generator = new BotResponseGenerator(ChatbotCondition.reference, context);
 
     // When
     List<Message> responses = generator.generateResponse(userQuery);
@@ -32,11 +48,16 @@ public class BotResponseGeneratorTest extends TestCase {
 
     // check reference messages
     Message message = new Message(
-        "Step 1: Make sure you are connected to the same network with the other device by switching on your bluetooth\n\n"
-            +
-            "Step 2: Search for the device that's within a range\n\n " +
-            "Step 3: Select the device you want to migrate computation to \n\n " +
-            "Step 4: Navigate to your process manager and select the process you want to migrate to\n\n",
+        """
+            Step 1: Make sure you are connected to the same network with the other device by switching on your bluetooth
+
+            Step 2: Search for the device that's within a range
+
+            Step 3: Select the device you want to migrate computation to
+
+            Step 4: Navigate to your process manager and select the process you want to migrate to
+
+            """,
         Message.VIEW_TYPE_COMPLEX_BOT);
     assertEquals(message, responses.get(2));
 
@@ -44,10 +65,10 @@ public class BotResponseGeneratorTest extends TestCase {
     assertEquals(BotMessageTemplates.BOT_RESPONSE_END, responses.get(3).getText());
   }
 
-  public void testGenerateResponseWithoutReference() {
+  public void testGenerateResponseWithoutReference() throws IOException {
     // Given
     String userQuery = "How to save energy";
-    BotResponseGenerator generator = new BotResponseGenerator(ChatbotCondition.pervasive);
+    BotResponseGenerator generator = new BotResponseGenerator(ChatbotCondition.pervasive, context);
 
     // When
     List<Message> responses = generator.generateResponse(userQuery);

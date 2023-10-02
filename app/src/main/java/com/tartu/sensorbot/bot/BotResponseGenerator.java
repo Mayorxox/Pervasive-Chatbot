@@ -1,52 +1,61 @@
 package com.tartu.sensorbot.bot;
 
+import static com.tartu.sensorbot.bot.BotMessageTemplates.questions;
+
+import android.content.Context;
 import com.tartu.sensorbot.chat.ChatbotCondition;
 import com.tartu.sensorbot.message.Message;
 import com.tartu.sensorbot.message.MessageStep;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class BotResponseGenerator {
 
   private final String condition;
+  private final BotQuestionMatcher questionMatcher;
 
-  public BotResponseGenerator(String condition) {
+  public BotResponseGenerator(String condition, Context context) throws IOException {
     this.condition = condition;
+    InputStream tokenizerModelStream = context.getResources().getAssets().open("opennlp-tokenizer-model.bin");
+    InputStream posModelStream = context.getResources().getAssets().open("opennlp-pos-model.bin");
+
+    this.questionMatcher = new BotQuestionMatcher(tokenizerModelStream, posModelStream);
   }
 
   public List<Message> generateResponse(String userQuery) {
+    String normalizedUserInput = questionMatcher.getBestMatchingQuestion(userQuery);
     List<Message> responses = new ArrayList<>();
+    if (!questions.containsKey(normalizedUserInput)){
+      return responses;
+    }
+
     responses.add(new Message(BotMessageTemplates.BOT_RESPONSE_START, true));
-    responses.add(generateStepsAndTimes(userQuery));
+    generateStepsAndTimes(normalizedUserInput).ifPresent(responses::add);
     if (Objects.equals(condition, ChatbotCondition.reference)) {
-      responses.add(getAdditionalReferenceSteps(userQuery));
+      getAdditionalReferenceSteps(normalizedUserInput).ifPresent(responses::add);
     }
     responses.add(new Message(BotMessageTemplates.BOT_RESPONSE_END, true));
     return responses;
   }
 
-  private Message generateStepsAndTimes(String userQuery) {
-    List<MessageStep> steps = new ArrayList<>();
-    if (userQuery.toLowerCase().contains("how to save energy")) {
-      steps.add(new MessageStep(2, "Close all the apps"));
-      steps.add(new MessageStep(2, "Activate saving mode"));
-      steps.add(new MessageStep(6, "Migrate computation to your friends or surrounding devices?"));
+  private Optional<Message> generateStepsAndTimes(String userQuery) {
+    if (questions.containsKey(userQuery)) {
+      List<MessageStep> steps = questions.get(userQuery).getSteps();
+      return Optional.of(new Message(steps));
     }
-    return new Message(steps);
+    return Optional.empty();
   }
 
-  private Message getAdditionalReferenceSteps(String userQuery) {
-    String message = "";
-    if (userQuery.toLowerCase().contains("how to save energy")) {
-      message =
-          "Step 1: Make sure you are connected to the same network with the other device by switching on your bluetooth\n\n"
-              +
-              "Step 2: Search for the device that's within a range\n\n " +
-              "Step 3: Select the device you want to migrate computation to \n\n " +
-              "Step 4: Navigate to your process manager and select the process you want to migrate to\n\n";
+  private Optional<Message> getAdditionalReferenceSteps(String userQuery) {
+    if (questions.containsKey(userQuery)) {
+      String message = questions.get(userQuery).getMessage();
+      return Optional.of(new Message(message, Message.VIEW_TYPE_COMPLEX_BOT));
     }
-    return new Message(message, Message.VIEW_TYPE_COMPLEX_BOT);
+    return Optional.empty();
   }
 
 }

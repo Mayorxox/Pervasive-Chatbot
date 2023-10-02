@@ -11,6 +11,7 @@ import com.tartu.sensorbot.bot.BotMessageTemplates;
 import com.tartu.sensorbot.bot.BotResponseGenerator;
 import com.tartu.sensorbot.message.Message;
 import com.tartu.sensorbot.message.MessageAdapter;
+import java.io.IOException;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
@@ -28,7 +29,11 @@ public class ChatActivity extends AppCompatActivity {
 
     inputEditText = findViewById(R.id.inputEditText);
     this.condition = getIntent().getStringExtra(CONDITION_INDENT_KEY);
-    responseGenerator = new BotResponseGenerator(condition);
+    try {
+      responseGenerator = new BotResponseGenerator(condition, this);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
 
     setUpChatRecyclerView();
     handleSendButtonClickListener();
