@@ -1,8 +1,5 @@
 package com.tartu.sensorbot.bot;
 
-import static com.tartu.sensorbot.bot.BotMessageTemplates.BOT_MESSAGE_NOT_FOUND;
-import static com.tartu.sensorbot.bot.BotMessageTemplates.MOCK_QUESTIONS;
-
 import android.content.Context;
 import androidx.annotation.NonNull;
 import com.tartu.sensorbot.chat.ChatbotCondition;
@@ -28,10 +25,10 @@ public class BotResponseGenerator {
 
   public List<Message> generateResponse(String userQuery) {
     String normalizedUserInput = questionMatcher.getBestMatchingQuestion(userQuery);
-    if (MOCK_QUESTIONS.containsKey(normalizedUserInput)) {
+    if (BotMockQuestions.MOCK_QUESTIONS.containsKey(normalizedUserInput)) {
       return generateBotResponses(normalizedUserInput);
     }
-    return List.of(new Message(BOT_MESSAGE_NOT_FOUND, true));
+    return List.of(new Message(BotMessageTemplates.BOT_MESSAGE_NOT_FOUND, true));
   }
 
   @NonNull
@@ -47,13 +44,13 @@ public class BotResponseGenerator {
   }
 
   private Optional<Message> getResponseSteps(String userQuery) {
-    return Optional.ofNullable(MOCK_QUESTIONS.get(userQuery))
-        .map(q -> new Message(q.getSteps()));
+    return Optional.ofNullable(BotMockQuestions.MOCK_QUESTIONS.get(userQuery))
+        .map(q -> new Message(q.steps()));
   }
 
   private Optional<Message> getAdditionalReferenceSteps(String userQuery) {
-    return Optional.ofNullable(MOCK_QUESTIONS.get(userQuery))
-        .map(q -> new Message(q.getMessage(), Message.VIEW_TYPE_COMPLEX_BOT));
+    return Optional.ofNullable(BotMockQuestions.MOCK_QUESTIONS.get(userQuery))
+        .map(q -> new Message(q.message(), Message.VIEW_TYPE_COMPLEX_BOT));
   }
 
 }

@@ -30,9 +30,9 @@ getting responses in real-time. The app features two modes: "Pervasive chatbot c
 ### Development
 The app is developed in Java using Android Studio. It uses the following versions of the Android SDK tools:
 
-Java JDK: 11
-Android Gradle Plugin: 7.4.2
-Gradle: 7.5
+Java JDK: 17
+Android Gradle Plugin: 8.0.2
+Gradle: 8.0
 
 #### _To contribute to this project:_
 
