@@ -21,13 +21,13 @@ public class BotMessageTemplates {
               new MessageStep(6, "Migrate computation to your friends or surrounding devices?")
           ),
           """
-             Step 1: Make sure you are connected to the same network with the other device by switching on your bluetooth
+           Step 1: Make sure you are connected to the same network with the other device by switching on your bluetooth
 
-             Step 2: Search for the device that's within a range
+           Step 2: Search for the device that's within a range
 
-              Step 3: Select the device you want to migrate computation to
+           Step 3: Select the device you want to migrate computation to
 
-              Step 4: Navigate to your process manager and select the process you want to migrate to
+           Step 4: Navigate to your process manager and select the process you want to migrate to
 
            """
       )

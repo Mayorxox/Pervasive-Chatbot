@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import junit.framework.TestCase;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -24,6 +25,7 @@ public class BotResponseGeneratorTest extends TestCase {
     context = ApplicationProvider.getApplicationContext();
   }
 
+  @Test
   public void testGenerateResponseWithReference() throws IOException {
     // Given
     String userQuery = "How to save energy";
@@ -65,6 +67,7 @@ public class BotResponseGeneratorTest extends TestCase {
     assertEquals(BotMessageTemplates.BOT_RESPONSE_END, responses.get(3).getText());
   }
 
+  @Test
   public void testGenerateResponseWithoutReference() throws IOException {
     // Given
     String userQuery = "How to save energy";
