@@ -45,12 +45,12 @@ public class BotResponseGenerator {
 
   private Optional<Message> getResponseSteps(String userQuery) {
     return Optional.ofNullable(BotMockQuestions.MOCK_QUESTIONS.get(userQuery))
-        .map(q -> new Message(q.steps()));
+        .map(q -> new Message(q.getSteps()));
   }
 
   private Optional<Message> getAdditionalReferenceSteps(String userQuery) {
     return Optional.ofNullable(BotMockQuestions.MOCK_QUESTIONS.get(userQuery))
-        .map(q -> new Message(q.message(), Message.VIEW_TYPE_COMPLEX_BOT));
+        .map(q -> new Message(q.getMessage(), Message.VIEW_TYPE_COMPLEX_BOT));
   }
 
 }
