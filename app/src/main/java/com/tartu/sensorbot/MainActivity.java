@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
   private void initializeActivityHandlers() {
     View rootView = findViewById(android.R.id.content);
 
-    new TermsAndConditionsHandler(rootView);
-    new UserManualHandler(rootView, this);
-    new NextButtonHandler(rootView, this);
+    new TermsAndConditionsHandler(rootView).initialize();
+    new UserManualHandler(rootView, this).initialize();
+    new NextButtonHandler(rootView, this).initialize();
 
     logViewHandler();
   }

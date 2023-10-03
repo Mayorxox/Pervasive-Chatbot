@@ -2,12 +2,11 @@ package com.tartu.sensorbot;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.tartu.sensorbot.bot.BotMessageTemplates;
+import com.tartu.sensorbot.activityHandlers.ChatRecyclerViewHandler;
 import com.tartu.sensorbot.bot.BotResponseGenerator;
 import com.tartu.sensorbot.logger.LoggerPermissionUtil;
 import com.tartu.sensorbot.message.Message;
@@ -32,6 +31,8 @@ public class ChatActivity extends AppCompatActivity {
 
     inputEditText = findViewById(R.id.inputEditText);
     this.condition = getIntent().getStringExtra(CONDITION_INDENT_KEY);
+    this.messageAdapter = new MessageAdapter(condition);
+
     try {
       responseGenerator = new BotResponseGenerator(condition, this);
     } catch (IOException e) {
@@ -51,27 +52,14 @@ public class ChatActivity extends AppCompatActivity {
   }
 
   private void setUpChatRecyclerView() {
-    RecyclerView chatRecyclerView = findViewById(R.id.chatRecyclerView);
-
-    messageAdapter = new MessageAdapter(condition);
-    messageAdapter.setScrollToBottomCallback(
-        () -> chatRecyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1));
-    chatRecyclerView.setAdapter(messageAdapter);
-    chatRecyclerView.setLayoutManager(getLinearLayoutManager());
-
-    // send initial bot message
-    messageAdapter.addMessage(BotMessageTemplates.INITIAL_BOT_MESSAGE, true);
+    View rootView = findViewById(android.R.id.content);
+    ChatRecyclerViewHandler handler = new ChatRecyclerViewHandler(rootView, this, condition);
+    handler.initialize();
   }
 
   private void handleSendButtonClickListener() {
     Button sendButton = findViewById(R.id.sendButton);
     sendButton.setOnClickListener(v -> onSendButtonClick());
-  }
-
-  private LinearLayoutManager getLinearLayoutManager() {
-    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-    layoutManager.setStackFromEnd(true);
-    return layoutManager;
   }
 
   private void onSendButtonClick() {

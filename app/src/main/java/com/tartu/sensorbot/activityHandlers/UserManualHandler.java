@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class UserManualHandler {
+public class UserManualHandler implements ActivityHandler {
 
   private final TextView userManualText;
   private final Context context;
@@ -25,11 +25,10 @@ public class UserManualHandler {
   public UserManualHandler(View rootView, Context context) {
     this.context = context;
     this.userManualText = rootView.findViewById(R.id.userManualText);
-
-    initialize();
   }
 
-  private void initialize() {
+  @Override
+  public void initialize() {
     userManualText.setOnClickListener(v -> {
       InputStream is = context.getResources().openRawResource(R.raw.user_manual);
       BufferedReader reader = new BufferedReader(new InputStreamReader(is));

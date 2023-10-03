@@ -11,7 +11,7 @@ import com.tartu.sensorbot.ChatActivity;
 import com.tartu.sensorbot.R;
 import com.tartu.sensorbot.chat.ChatbotCondition;
 
-public class NextButtonHandler {
+public class NextButtonHandler implements ActivityHandler {
 
   private final Button nextButton;
   private final RadioGroup radioGroup;
@@ -26,11 +26,11 @@ public class NextButtonHandler {
     this.termsCheckbox = rootView.findViewById(R.id.termsCheckbox);
     this.pervasiveRadioButton = rootView.findViewById(R.id.pervasiveRadioButton);
 
-    initialize();
     updateNextButton(false, false);
   }
 
-  private void initialize() {
+  @Override
+  public void initialize() {
     nextButton.setOnClickListener(v -> startChatActivity());
 
     radioGroup.setOnCheckedChangeListener((group, checkedId) ->
