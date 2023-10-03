@@ -10,4 +10,6 @@
   <string name="pervasive_chatbot_button_text">Pervasive-chatbot</string>
   <string name="user_manual_text"><u>User manual</u></string>
   <string name="next_button_text">Next</string>
+  <string name="accessibility_service_description">Test</string>
+  <string name="app_logs_text">See logs</string>
 </resources>

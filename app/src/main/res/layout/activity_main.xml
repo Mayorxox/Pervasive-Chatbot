@@ -17,7 +17,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    app:layout_constraintBottom_toTopOf="@+id/userManualText"
+    app:layout_constraintBottom_toTopOf="@+id/appLogsText"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
@@ -34,6 +34,19 @@
       android:layout_height="wrap_content"
       android:text="@string/reference_chatbot_button_text" />
   </RadioGroup>
+
+  <!-- App logs Text -->
+  <TextView
+    android:id="@+id/appLogsText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:textColor="#9E9E9E"
+    android:text="@string/app_logs_text"
+    android:textSize="18sp"
+    app:layout_constraintBottom_toTopOf="@id/userManualText"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
 
   <!-- User Manual Text -->
   <TextView

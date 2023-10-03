@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tartu.sensorbot.bot.BotMessageTemplates;
 import com.tartu.sensorbot.bot.BotResponseGenerator;
+import com.tartu.sensorbot.logger.LoggerPermissionUtil;
 import com.tartu.sensorbot.message.Message;
 import com.tartu.sensorbot.message.MessageAdapter;
 import java.io.IOException;
@@ -21,6 +22,8 @@ public class ChatActivity extends AppCompatActivity {
   private MessageAdapter messageAdapter;
   private BotResponseGenerator responseGenerator;
   private String condition;
+
+  private LoggerPermissionUtil loggerPermissionUtil;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,14 @@ public class ChatActivity extends AppCompatActivity {
 
     setUpChatRecyclerView();
     handleSendButtonClickListener();
+
+    loggerPermissionUtil = new LoggerPermissionUtil(this);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    loggerPermissionUtil.checkPermissionsAndSettings();
   }
 
   private void setUpChatRecyclerView() {
