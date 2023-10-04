@@ -8,20 +8,21 @@ import com.tartu.sensorbot.R;
 import com.tartu.sensorbot.bot.BotMessageTemplates;
 import com.tartu.sensorbot.message.MessageAdapter;
 
-public class ChatRecyclerViewHandler implements ActivityHandler {
+public class ChatRecyclerViewHandler {
 
   private final MessageAdapter messageAdapter;
   private final RecyclerView chatRecyclerView;
   private final Context context;
 
-  public ChatRecyclerViewHandler(View rootView, Context context, String condition) {
-    this.messageAdapter = new MessageAdapter(condition);
+  public ChatRecyclerViewHandler(View rootView, Context context, MessageAdapter messageAdapter) {
+    this.messageAdapter = messageAdapter;
     this.context = context;
     this.chatRecyclerView = rootView.findViewById(R.id.chatRecyclerView);
+
+    initialize();
   }
 
-  @Override
-  public void initialize() {
+  private void initialize() {
     messageAdapter.setScrollToBottomCallback(
         () -> chatRecyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1));
     chatRecyclerView.setAdapter(messageAdapter);

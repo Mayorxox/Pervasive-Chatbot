@@ -1,11 +1,14 @@
 package com.tartu.sensorbot.logger;
 
+import android.accessibilityservice.AccessibilityService;
+import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.AlertDialog;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
+import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.provider.Settings;
+import android.view.accessibility.AccessibilityManager;
 import java.util.List;
 
 public class LoggerPermissionUtil {
@@ -23,7 +26,7 @@ public class LoggerPermissionUtil {
     }
 
     // Check if the AccessibilityService is enabled and if not, guide the user to enable it
-    if (!isAccessibilityServiceEnabled()) {
+    if (!isAccessibilityServiceEnabled(LogActivityService.class)) {
       new AlertDialog.Builder(context)
           .setTitle("Enable Accessibility Service")
           .setMessage("For the user study, please enable the UserActivityService in the accessibility settings.")
@@ -40,20 +43,23 @@ public class LoggerPermissionUtil {
     context.startActivity(new Intent(actionAccessibilitySettings));
   }
 
-  private boolean isAccessibilityServiceEnabled() {
-    String serviceName = context.getPackageName() + "/" + LogActivityService.class.getName();
-    String enabledServices = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-    return enabledServices != null && enabledServices.contains(serviceName);
+  public boolean hasUsageStatsPermission() {
+    AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+    int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, android.os.Process.myUid(), context.getPackageName());
+    return mode == AppOpsManager.MODE_ALLOWED;
   }
 
-  private boolean hasUsageStatsPermission() {
-    final UsageStatsManager usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
-    if (usageStatsManager == null) {
-      return false;
+  public boolean isAccessibilityServiceEnabled(Class<? extends AccessibilityService> service) {
+    AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
+    List<AccessibilityServiceInfo> enabledServices = am.getEnabledAccessibilityServiceList(
+        AccessibilityServiceInfo.FEEDBACK_ALL_MASK);
+    for (AccessibilityServiceInfo enabledService : enabledServices) {
+      ServiceInfo enabledServiceInfo = enabledService.getResolveInfo().serviceInfo;
+      if (enabledServiceInfo.packageName.equals(context.getPackageName()) && enabledServiceInfo.name.equals(service.getName())) {
+        return true;
+      }
     }
-    final long currentTime = System.currentTimeMillis();
-    final List<UsageStats> stats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, currentTime - 1000, currentTime);
-    return stats != null && !stats.isEmpty();
+    return false;
   }
 
 }

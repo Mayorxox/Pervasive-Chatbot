@@ -45,6 +45,10 @@ public class MessageAdapter extends RecyclerView.Adapter<ChatViewHolder> {
     scrollToBottomCallback.run();
   }
 
+  public void clearMessages() {
+    messages.clear();
+  }
+
   public void addMessage(String text, boolean isBot) {
     Message message = new Message(text, isBot);
     addMessage(message);

@@ -11,17 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.tartu.sensorbot.R;
 
-public class TermsAndConditionsHandler implements ActivityHandler {
+public class TermsAndConditionsHandler {
 
   private static final String TERMS_TEXT = "By clicking this you are accepting our terms and conditions";
   private final TextView termsLink;
 
   public TermsAndConditionsHandler(View rootView) {
     this.termsLink = rootView.findViewById(R.id.termsLink);
+    initialize();
   }
 
-  @Override
-  public void initialize() {
+  private void initialize() {
     ClickableSpan clickableSpan = getClickableSpan();
     int startPos = "By clicking this you are accepting our ".length();
     int endPos = startPos + "terms and conditions".length();

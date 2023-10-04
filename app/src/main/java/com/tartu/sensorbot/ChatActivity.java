@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
+import com.tartu.sensorbot.activityHandlers.ChatClearActivityHandler;
 import com.tartu.sensorbot.activityHandlers.ChatRecyclerViewHandler;
 import com.tartu.sensorbot.bot.BotResponseGenerator;
 import com.tartu.sensorbot.logger.LoggerPermissionUtil;
@@ -20,7 +21,6 @@ public class ChatActivity extends AppCompatActivity {
   private EditText inputEditText;
   private MessageAdapter messageAdapter;
   private BotResponseGenerator responseGenerator;
-  private String condition;
 
   private LoggerPermissionUtil loggerPermissionUtil;
 
@@ -30,7 +30,7 @@ public class ChatActivity extends AppCompatActivity {
     setContentView(R.layout.activity_chat);
 
     inputEditText = findViewById(R.id.inputEditText);
-    this.condition = getIntent().getStringExtra(CONDITION_INDENT_KEY);
+    String condition = getIntent().getStringExtra(CONDITION_INDENT_KEY);
     this.messageAdapter = new MessageAdapter(condition);
 
     try {
@@ -39,7 +39,7 @@ public class ChatActivity extends AppCompatActivity {
       throw new RuntimeException(e);
     }
 
-    setUpChatRecyclerView();
+    setUpActivityHandlers();
     handleSendButtonClickListener();
 
     loggerPermissionUtil = new LoggerPermissionUtil(this);
@@ -51,10 +51,10 @@ public class ChatActivity extends AppCompatActivity {
     loggerPermissionUtil.checkPermissionsAndSettings();
   }
 
-  private void setUpChatRecyclerView() {
+  private void setUpActivityHandlers() {
     View rootView = findViewById(android.R.id.content);
-    ChatRecyclerViewHandler handler = new ChatRecyclerViewHandler(rootView, this, condition);
-    handler.initialize();
+    new ChatRecyclerViewHandler(rootView, this, messageAdapter);
+    new ChatClearActivityHandler(rootView, this, messageAdapter);
   }
 
   private void handleSendButtonClickListener() {
