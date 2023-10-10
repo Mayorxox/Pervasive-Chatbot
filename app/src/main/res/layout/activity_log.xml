@@ -5,9 +5,18 @@
   android:layout_height="match_parent"
   android:padding="16dp">
 
+  <Button
+    android:id="@+id/exportButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:text="@string/log_export_button_text" />
+
   <ScrollView
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_above="@id/exportButton"
     android:layout_marginBottom="16dp">
 
     <TextView
@@ -18,5 +27,4 @@
       android:textColor="@android:color/black"
       tools:text="Sample log entry\nAnother log entry\nYet another log entry" />
   </ScrollView>
-
 </RelativeLayout>

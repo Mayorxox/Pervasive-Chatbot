@@ -12,4 +12,5 @@
   <string name="next_button_text">Next</string>
   <string name="accessibility_service_description">Test</string>
   <string name="app_logs_text">See logs</string>
+  <string name="log_export_button_text">Export</string>
 </resources>

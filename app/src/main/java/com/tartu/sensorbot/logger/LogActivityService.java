@@ -1,34 +1,38 @@
 package com.tartu.sensorbot.logger;
 
 import android.accessibilityservice.AccessibilityService;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.accessibility.AccessibilityEvent;
-import java.util.List;
+import java.time.LocalDateTime;
 
 public class LogActivityService extends AccessibilityService {
-
-  private final Handler handler = new Handler(Looper.getMainLooper());
-  private final Runnable logUsageStatsRunnable = new Runnable() {
-    @Override
-    public void run() {
-      logAppUsageStats();
-      handler.postDelayed(this, 120000);  // Log every 2 minutes
-    }
-  };
 
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event) {
     String logMessage = "Accessibility Event: " +
+        "\n\tTimestamp: " + LocalDateTime.now().toString() +
         "\n\tPackage: " + event.getPackageName() +
         "\n\tType: " + AccessibilityEvent.eventTypeToString(event.getEventType()) +
-        "\n\tContent: " + event.getContentDescription();
+        "\n\tContent Description: " + event.getContentDescription() +
+        "\n\tSource Class: " + (event.getClassName() != null ? event.getClassName() : "N/A") +
+        "\n\tTime: " + event.getEventTime() +
+        "\n\tRecord Count: " + event.getRecordCount();
+
+    // If you want to log text data from the event
+    StringBuilder eventText = new StringBuilder("\n\tText: ");
+    for (CharSequence s : event.getText()) {
+      eventText.append(s).append(" ");
+    }
+    logMessage += eventText.toString();
+
+    // If you want to log additional info for certain event types
+    if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED && event.getSource() != null) {
+      logMessage += "\n\tView Resource ID: " + event.getSource().getViewIdResourceName();
+    }
+
     Logger.log(this, logMessage);
   }
 
@@ -41,7 +45,6 @@ public class LogActivityService extends AccessibilityService {
   public void onCreate() {
     super.onCreate();
 
-    handler.post(logUsageStatsRunnable);
     // Register for system broadcasts (e.g., connectivity changes)
     IntentFilter filter = new IntentFilter();
     filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
@@ -51,7 +54,6 @@ public class LogActivityService extends AccessibilityService {
   @Override
   public void onDestroy() {
     super.onDestroy();
-    handler.removeCallbacks(logUsageStatsRunnable);
     unregisterReceiver(broadcastReceiver);
   }
 
@@ -67,20 +69,5 @@ public class LogActivityService extends AccessibilityService {
 
   private Context getContext() {
     return this;
-  }
-
-  private void logAppUsageStats() {
-    // Log app usage stats
-    UsageStatsManager usageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
-    if (usageStatsManager != null) {
-      long currentTime = System.currentTimeMillis();
-      List<UsageStats> usageStatsList = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, currentTime - 1000 * 60 * 60 * 24, currentTime);
-      for (UsageStats usageStats : usageStatsList) {
-        String logMessage = "App Usage: " +
-            "\n\tApp: " + usageStats.getPackageName() +
-            "\n\tLast Time Used: " + usageStats.getLastTimeUsed();
-        Logger.log(this, logMessage);
-      }
-    }
   }
 }

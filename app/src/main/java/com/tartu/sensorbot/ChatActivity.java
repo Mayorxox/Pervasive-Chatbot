@@ -9,10 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.tartu.sensorbot.activityHandlers.ChatClearActivityHandler;
 import com.tartu.sensorbot.activityHandlers.ChatRecyclerViewHandler;
 import com.tartu.sensorbot.bot.BotResponseGenerator;
+import com.tartu.sensorbot.logger.Logger;
 import com.tartu.sensorbot.logger.LoggerPermissionUtil;
 import com.tartu.sensorbot.message.Message;
 import com.tartu.sensorbot.message.MessageAdapter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
@@ -65,6 +67,7 @@ public class ChatActivity extends AppCompatActivity {
   private void onSendButtonClick() {
     String userMessage = inputEditText.getText().toString().trim();
     if (!userMessage.isEmpty()) {
+      Logger.log(this, String.format("%s: User added message %s", LocalDateTime.now().toString(), userMessage));
       messageAdapter.addMessage(userMessage, false);
       inputEditText.setText("");
       simulateBotResponse(userMessage);
