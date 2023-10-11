@@ -1,17 +1,21 @@
 package com.tartu.sensorbot.chat;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tartu.sensorbot.R;
+import com.tartu.sensorbot.logger.Logger;
 import com.tartu.sensorbot.message.Message;
 import com.tartu.sensorbot.message.MessageStep;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,9 +25,11 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
   private final CardView cardView;
   private final LinearLayout messageContainer;
   private final String condition;
+  private final Context context;
 
   public ChatViewHolder(@NonNull View itemView, int viewType, String condition) {
     super(itemView);
+    this.context = itemView.getContext();
     this.condition = condition;
     this.messageTextView = itemView.findViewById(R.id.messageTextView);
     this.cardView = itemView.findViewById(R.id.cardView);
@@ -72,6 +78,12 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
     if (message.getSteps().size() > 0 && Objects.equals(condition, ChatbotCondition.pervasive)) {
       View complexBotButtonView = layoutInflater.inflate(R.layout.complex_bot_pc_button,
           messageContainer, false);
+
+      Button confirmButton = complexBotButtonView.findViewById(R.id.confirmButton);
+      confirmButton.setOnClickListener(v -> {
+        Logger.log(context, String.format("%s: User clicked confirm button", LocalDateTime.now().toString()));
+      });
+
       messageContainer.addView(complexBotButtonView);
     }
   }

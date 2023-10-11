@@ -10,6 +10,8 @@ import android.widget.RadioGroup;
 import com.tartu.sensorbot.ChatActivity;
 import com.tartu.sensorbot.R;
 import com.tartu.sensorbot.chat.ChatbotCondition;
+import com.tartu.sensorbot.logger.Logger;
+import java.time.LocalDateTime;
 
 public class NextButtonHandler {
 
@@ -34,16 +36,21 @@ public class NextButtonHandler {
   private void initialize() {
     nextButton.setOnClickListener(v -> startChatActivity());
 
-    radioGroup.setOnCheckedChangeListener((group, checkedId) ->
-        updateNextButton(termsCheckbox.isChecked(), checkedId != -1));
+    radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+      updateNextButton(termsCheckbox.isChecked(), checkedId != -1);
+    });
 
-    termsCheckbox.setOnCheckedChangeListener((buttonView, isChecked) ->
-        updateNextButton(isChecked, radioGroup.getCheckedRadioButtonId() != -1));
+    termsCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+      Logger.log(context, String.format("%s: User is %s terms and conditions", LocalDateTime.now().toString(), isChecked ? "Accepted" : "Declined"));
+      updateNextButton(isChecked, radioGroup.getCheckedRadioButtonId() != -1);
+    });
   }
 
   private void startChatActivity() {
     Intent intent = new Intent(context, ChatActivity.class);
-    intent.putExtra("condition", getChatbotCondition());
+    String chatbotCondition = getChatbotCondition();
+    Logger.log(context, String.format("%s: User choose conditions - %s", LocalDateTime.now().toString(), chatbotCondition));
+    intent.putExtra("condition", chatbotCondition);
     context.startActivity(intent);
   }
 

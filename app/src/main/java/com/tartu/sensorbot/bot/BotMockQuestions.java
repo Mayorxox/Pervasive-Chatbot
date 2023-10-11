@@ -17,14 +17,25 @@ public class BotMockQuestions {
               new MessageStep(6, "Migrate computation to your friends or surrounding devices?")
           ),
           """
-              Step 1: Make sure you are connected to the same network with the other device by switching on your bluetooth
-
-              Step 2: Search for the device that's within a range
-
-              Step 3: Select the device you want to migrate computation to
-
-              Step 4: Navigate to your process manager and select the process you want to migrate to
-
+              Step 1: Ensure Network Connectivity. Connect your Android device to a network.
+              
+              Step 2: Install and Open an Offloading App. Download, install, and open a computational offloading app.
+              
+              Step 3: Securely log in or authenticate your device and the target device/server.
+              
+              Step 4: Identify and select the computational task to be offloaded.
+              
+              Step 5: Select the device or server to which the task will be offloaded.
+              
+              Step 6: Send the task and necessary data to the chosen device/server.
+              
+              Step 7: Track the progress of the offloaded computational task.
+              
+              Step 8: Once complete, retrieve and check the results for accuracy.
+              
+              Step 9: Safely disconnect from the target device/server.
+              
+              Step 10: Store the retrieved data securely or use it as needed.
               """
       )
   );
