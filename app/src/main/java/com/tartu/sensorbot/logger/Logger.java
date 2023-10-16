@@ -76,18 +76,31 @@ public class Logger {
       String line;
       while ((line = br.readLine()) != null) {
         String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1); // This regex splits by commas outside of quotes
-        if (values.length >= 2) { // Ensure there are at least two fields (timestamp and message)
-          sb.append(values[0]) // Timestamp
-              .append(": ")
-              .append(values[1]) // Message
-              .append("\n");
-        }
+        sb.append(getLogLine(values));
       }
 
     } catch (IOException e) {
       e.printStackTrace();
     }
     return sb.toString();
+  }
+
+  private static String getLogLine(String[] values) {
+    if (values.length < 2) {
+      return "";
+    }
+
+    String timestamp = values[0];
+    String message = values[1];
+    if (message != null) {
+      return String.format("%s: %s\n", timestamp, message);
+    }
+
+    if (values.length >= 7 && values[6] != null) {
+      String contentDescription = values[6];
+      return String.format("%s: %s\n", timestamp, contentDescription);
+    }
+    return "";
   }
 
   public static void clearLogs(Context context) {
