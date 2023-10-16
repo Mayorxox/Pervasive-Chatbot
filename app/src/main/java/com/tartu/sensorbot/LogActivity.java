@@ -13,60 +13,85 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import com.tartu.sensorbot.logger.Logger;
-import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.util.Optional;
 
 public class LogActivity extends AppCompatActivity {
+
+  private final ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
+      new ActivityResultContracts.StartActivityForResult(),
+      result -> {
+        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+          Uri uri = result.getData().getData();
+          copyLogFileTo(uri);
+        }
+      }
+  );
+  private TextView logTextView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_log);
 
-    TextView logTextView = findViewById(R.id.logTextView);
-    ScrollView scrollView = findViewById(
-        R.id.scrollView); // Ensure you give an ID to your ScrollView in XML
-    Button exportButton = findViewById(R.id.exportButton);
+    logTextView = findViewById(R.id.logTextView);
+    ScrollView scrollView = findViewById(R.id.scrollView);
 
     String logs = Logger.readLogs(this);
-    logTextView.setText(logs);
+    Optional.ofNullable(logTextView).ifPresent(a -> a.setText(logs));
 
     // Scroll to the bottom
     scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
 
     // Export logs to a file when the button is clicked
+    Button exportButton = findViewById(R.id.exportButton);
     exportButton.setOnClickListener(v -> exportLogs());
+
+    // Clear logs when clicked
+    Button clearLogsButton = findViewById(R.id.clearLogsButton);
+    clearLogsButton.setOnClickListener(v -> showClearLogsConfirmationDialog());
   }
 
   private void exportLogs() {
     Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
     intent.addCategory(Intent.CATEGORY_OPENABLE);
-    intent.setType("text/plain");
-    intent.putExtra(Intent.EXTRA_TITLE, "logs.txt");
+    intent.setType("text/csv"); // Set the type to CSV
+    intent.putExtra(Intent.EXTRA_TITLE, "logs.csv"); // Change the default name to logs.csv
 
-    // Use the new ActivityResult API to handle the result
     resultLauncher.launch(intent);
   }
 
-  // Define an ActivityResultLauncher to handle the result of the document creation
-  private final ActivityResultLauncher<Intent> resultLauncher =
-      registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-          Uri uri = result.getData().getData();
-          if (uri != null) {
-            writeLogsToFile(uri, Logger.readLogs(this));
-          }
-        }
-      });
+  private void showClearLogsConfirmationDialog() {
+    new AlertDialog.Builder(this)
+        .setTitle("Clear Logs")
+        .setMessage("Are you sure you want to clear logs?")
+        .setPositiveButton("Yes", (dialog, which) -> {
+          Logger.clearLogs(this);
+          String logs = Logger.readLogs(this);
+          Optional.ofNullable(logTextView).ifPresent(a -> a.setText(logs));
+          showDialog("Success", "Logs cleared successfully!");
+        })
+        .setNegativeButton("No", null)
+        .show();
+  }
 
-  private void writeLogsToFile(Uri uri, String logs) {
-    try (OutputStream outputStream = getContentResolver().openOutputStream(uri);
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream))) {
-      writer.write(logs);
+  private void copyLogFileTo(Uri targetUri) {
+    File logFile = new File(getFilesDir(), Logger.LOG_FILE_NAME);
+    try (InputStream inputStream = new FileInputStream(logFile);
+        OutputStream outputStream = getContentResolver().openOutputStream(targetUri)) {
+
+      byte[] buffer = new byte[1024];
+      int length;
+      while ((length = inputStream.read(buffer)) > 0) {
+        outputStream.write(buffer, 0, length);
+      }
       showDialog("Success", "Logs exported successfully!");
     } catch (IOException e) {
+      e.printStackTrace();
       showDialog("Error", "Failed to export logs!");
     }
   }
@@ -79,4 +104,3 @@ public class LogActivity extends AppCompatActivity {
         .show();
   }
 }
-

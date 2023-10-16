@@ -13,4 +13,5 @@
   <string name="accessibility_service_description">Test</string>
   <string name="app_logs_text">See logs</string>
   <string name="log_export_button_text">Export</string>
+  <string name="clear_logs_button_text">Clear logs</string>
 </resources>

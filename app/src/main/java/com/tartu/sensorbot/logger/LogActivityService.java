@@ -6,34 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.accessibility.AccessibilityEvent;
-import java.time.LocalDateTime;
 
 public class LogActivityService extends AccessibilityService {
 
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event) {
-    String logMessage = "Accessibility Event: " +
-        "\n\tTimestamp: " + LocalDateTime.now().toString() +
-        "\n\tPackage: " + event.getPackageName() +
-        "\n\tType: " + AccessibilityEvent.eventTypeToString(event.getEventType()) +
-        "\n\tContent Description: " + event.getContentDescription() +
-        "\n\tSource Class: " + (event.getClassName() != null ? event.getClassName() : "N/A") +
-        "\n\tTime: " + event.getEventTime() +
-        "\n\tRecord Count: " + event.getRecordCount();
-
-    // If you want to log text data from the event
-    StringBuilder eventText = new StringBuilder("\n\tText: ");
-    for (CharSequence s : event.getText()) {
-      eventText.append(s).append(" ");
-    }
-    logMessage += eventText.toString();
-
-    // If you want to log additional info for certain event types
-    if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED && event.getSource() != null) {
-      logMessage += "\n\tView Resource ID: " + event.getSource().getViewIdResourceName();
-    }
-
-    Logger.log(this, logMessage);
+    Logger.log(this, event);
   }
 
   @Override
