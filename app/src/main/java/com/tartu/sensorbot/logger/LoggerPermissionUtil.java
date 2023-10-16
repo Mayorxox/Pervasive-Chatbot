@@ -60,7 +60,7 @@ public class LoggerPermissionUtil {
           // Direct the user to the accessibility settings
           startActivity(Settings.ACTION_ACCESSIBILITY_SETTINGS);
         })
-        .setNegativeButton("Cancel", null)
+        .setNegativeButton("OK", null)
         .show();
   }
 }

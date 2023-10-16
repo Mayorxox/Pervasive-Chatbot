@@ -21,12 +21,12 @@ public class NextButtonHandler {
   private final RadioButton pervasiveRadioButton;
   private final Context context;
 
-  public NextButtonHandler(View rootView, Context context) {
-    this.context = context;
+  public NextButtonHandler(View rootView) {
     this.nextButton = rootView.findViewById(R.id.nextButton);
     this.radioGroup = rootView.findViewById(R.id.radioGroup);
     this.termsCheckbox = rootView.findViewById(R.id.termsCheckbox);
     this.pervasiveRadioButton = rootView.findViewById(R.id.pervasiveRadioButton);
+    this.context = rootView.getContext();
 
     updateNextButton(false, false);
 

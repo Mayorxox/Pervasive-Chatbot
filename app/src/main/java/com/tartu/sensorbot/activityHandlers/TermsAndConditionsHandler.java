@@ -1,5 +1,6 @@
 package com.tartu.sensorbot.activityHandlers;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -10,14 +11,17 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.tartu.sensorbot.R;
+import com.tartu.sensorbot.util.HtmlDialogDisplayUtil;
 
 public class TermsAndConditionsHandler {
 
   private static final String TERMS_TEXT = "By clicking this you are accepting our terms and conditions";
   private final TextView termsLink;
+  private final Context context;
 
   public TermsAndConditionsHandler(View rootView) {
     this.termsLink = rootView.findViewById(R.id.termsLink);
+    this.context = rootView.getContext();
     initialize();
   }
 
@@ -36,7 +40,7 @@ public class TermsAndConditionsHandler {
     return new ClickableSpan() {
       @Override
       public void onClick(@NonNull View widget) {
-        // show terms and conditions dialog
+        HtmlDialogDisplayUtil.display(context, R.raw.terms_and_conditions);
       }
 
       @Override

@@ -41,10 +41,11 @@ public class BotQuestionMatcher {
     List<String> userInputTokens = tokenizeAndNormalize(userInput);
     String bestMatch = null;
     double maxScore = -1;
+    final double THRESHOLD = 0.2;
 
     for (String mockQuestion : mockQuestions) {
       double score = computeTokenOverlapScore(userInputTokens, tokenizeAndNormalize(mockQuestion));
-      if (score > maxScore) {
+      if (score > maxScore && score >= THRESHOLD) {
         maxScore = score;
         bestMatch = mockQuestion;
       }
@@ -54,7 +55,6 @@ public class BotQuestionMatcher {
 
   private List<String> tokenizeAndNormalize(String text) {
     String[] tokens = tokenizer.tokenize(spellCorrection(text));
-
     List<String> normalizedTokens = new ArrayList<>();
     for (String s : tokens) {
       String token = s.toLowerCase();

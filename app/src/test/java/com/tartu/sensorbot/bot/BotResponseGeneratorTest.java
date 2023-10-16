@@ -81,7 +81,7 @@ public class BotResponseGeneratorTest extends TestCase {
   @Test
   public void testGenerateResponseWithoutReference() throws IOException {
     // Given
-    String userQuery = "How to save energy";
+    String userQuery = "How tosave battery";
     BotResponseGenerator generator = new BotResponseGenerator(ChatbotCondition.pervasive, context);
 
     // When
