@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class LogActivity extends AppCompatActivity {
@@ -59,8 +60,8 @@ public class LogActivity extends AppCompatActivity {
   private void exportLogs() {
     Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
     intent.addCategory(Intent.CATEGORY_OPENABLE);
-    intent.setType("text/csv"); // Set the type to CSV
-    intent.putExtra(Intent.EXTRA_TITLE, "logs.csv"); // Change the default name to logs.csv
+    intent.setType("text/csv");
+    intent.putExtra(Intent.EXTRA_TITLE, String.format("logs_%s.csv", LocalDateTime.now().toString()));
 
     resultLauncher.launch(intent);
   }

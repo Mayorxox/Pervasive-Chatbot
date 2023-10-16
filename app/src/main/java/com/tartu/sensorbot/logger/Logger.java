@@ -2,6 +2,7 @@ package com.tartu.sensorbot.logger;
 
 import android.content.Context;
 import android.view.accessibility.AccessibilityEvent;
+import com.tartu.sensorbot.util.StringUtil;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,7 +20,7 @@ public class Logger {
   private static final String CSV_HEADER = "Timestamp,Message,Package,Type,Source Class,View Resource ID,Content Description,Time,Record Count\n";
 
   public static void log(Context context, String message) {
-    String logEntry = String.format("%s,%s\n", LocalDateTime.now().toString(), escapeForCsv(message));
+    String logEntry = String.format("%s,%s\n", LocalDateTime.now().toString(), StringUtil.escapeForCsv(message));
 
     writeLogEntry(context, logEntry);
   }
@@ -28,13 +29,13 @@ public class Logger {
     String logEntry = String.format(Locale.US,
         "%s,%s,%s,%s,%s,%s,%s,%s,%d\n",
         LocalDateTime.now().toString(),
-        escapeForCsv(event.getText().toString()),
-        escapeForCsv(event.getPackageName().toString()),
-        escapeForCsv(AccessibilityEvent.eventTypeToString(event.getEventType())),
-        escapeForCsv(event.getClassName() != null ? event.getClassName().toString() : "N/A"),
-        escapeForCsv(getViewIdResourceId(event)),
-        escapeForCsv(event.getContentDescription().toString()),
-        escapeForCsv(Long.toString(event.getEventTime())),
+        StringUtil.escapeForCsv(event.getText()),
+        StringUtil.escapeForCsv(event.getPackageName()),
+        StringUtil.escapeForCsv(AccessibilityEvent.eventTypeToString(event.getEventType())),
+        StringUtil.escapeForCsv(event.getClassName() != null ? event.getClassName().toString() : "N/A"),
+        StringUtil.escapeForCsv(getViewIdResourceId(event)),
+        StringUtil.escapeForCsv(event.getContentDescription()),
+        StringUtil.escapeForCsv(Long.toString(event.getEventTime())),
         event.getRecordCount()
     );
 
@@ -64,11 +65,6 @@ public class Logger {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-
-  private static String escapeForCsv(String value) {
-    if (value == null) return "";
-    return "\"" + value.replace("\"", "\"\"") + "\"";
   }
 
   public static String readLogs(Context context) {
