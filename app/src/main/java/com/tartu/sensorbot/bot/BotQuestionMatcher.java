@@ -41,7 +41,7 @@ public class BotQuestionMatcher {
     List<String> userInputTokens = tokenizeAndNormalize(userInput);
     String bestMatch = null;
     double maxScore = -1;
-    final double THRESHOLD = 0.2;
+    final double THRESHOLD = 0.3;
 
     for (String mockQuestion : mockQuestions) {
       double score = computeTokenOverlapScore(userInputTokens, tokenizeAndNormalize(mockQuestion));

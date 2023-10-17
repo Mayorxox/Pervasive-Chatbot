@@ -92,11 +92,11 @@ public class Logger {
 
     String timestamp = values[0];
     String message = values[1];
-    if (message != null) {
+    if (StringUtil.isNotEmpty(message)) {
       return String.format("%s: %s\n", timestamp, message);
     }
 
-    if (values.length >= 7 && values[6] != null) {
+    if (values.length >= 7 && StringUtil.isNotEmpty(values[6])) {
       String contentDescription = values[6];
       return String.format("%s: %s\n", timestamp, contentDescription);
     }

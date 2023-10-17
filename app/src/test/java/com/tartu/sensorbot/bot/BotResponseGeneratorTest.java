@@ -35,7 +35,7 @@ public class BotResponseGeneratorTest extends TestCase {
     List<Message> responses = generator.generateResponse(userQuery);
 
     // Then
-    assertEquals(4, responses.size());
+    assertEquals(3, responses.size());
 
     // Check start message
     assertEquals(BotMessageTemplates.BOT_RESPONSE_START, responses.get(0).getText());
@@ -73,22 +73,19 @@ public class BotResponseGeneratorTest extends TestCase {
               """,
         Message.VIEW_TYPE_COMPLEX_BOT);
     assertEquals(message, responses.get(2));
-
-    // Check end message
-    assertEquals(BotMessageTemplates.BOT_RESPONSE_END, responses.get(3).getText());
   }
 
   @Test
   public void testGenerateResponseWithoutReference() throws IOException {
     // Given
-    String userQuery = "How tosave battery";
+    String userQuery = "how to save battery ";
     BotResponseGenerator generator = new BotResponseGenerator(ChatbotCondition.pervasive, context);
 
     // When
     List<Message> responses = generator.generateResponse(userQuery);
 
     // Then
-    assertEquals(3, responses.size());
+    assertEquals(2, responses.size());
 
     // Check start message
     assertEquals(BotMessageTemplates.BOT_RESPONSE_START, responses.get(0).getText());
@@ -100,8 +97,5 @@ public class BotResponseGeneratorTest extends TestCase {
         new MessageStep(6, "Migrate computation to your friends or surrounding devices?")
     );
     assertEquals(new Message(messageSteps), responses.get(1));
-
-    // Check end message
-    assertEquals(BotMessageTemplates.BOT_RESPONSE_END, responses.get(2).getText());
   }
 }

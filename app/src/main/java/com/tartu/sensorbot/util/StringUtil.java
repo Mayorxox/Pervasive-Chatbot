@@ -23,4 +23,11 @@ public class StringUtil {
     return "\"" + value.replace("\"", "\"\"") + "\"";
   }
 
+  public static boolean isNotEmpty(String value) {
+    if (value == null) {
+      return false;
+    }
+    return value.trim().length() > 0;
+  }
+
 }

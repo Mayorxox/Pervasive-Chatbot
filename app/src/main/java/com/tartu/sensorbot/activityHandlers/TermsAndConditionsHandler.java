@@ -46,8 +46,8 @@ public class TermsAndConditionsHandler {
       @Override
       public void updateDrawState(@NonNull TextPaint ds) {
         super.updateDrawState(ds);
-        ds.setUnderlineText(false); // This will remove the underline from the link
-        ds.setColor(Color.BLUE); // Set your desired color for the link part
+        ds.setUnderlineText(false);
+        ds.setColor(Color.BLUE);
       }
     };
   }

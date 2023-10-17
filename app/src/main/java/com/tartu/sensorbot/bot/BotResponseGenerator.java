@@ -4,6 +4,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import com.tartu.sensorbot.chat.ChatbotCondition;
 import com.tartu.sensorbot.message.Message;
+import com.tartu.sensorbot.util.StringUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -25,7 +26,8 @@ public class BotResponseGenerator {
 
   public List<Message> generateResponse(String userQuery) {
     String normalizedUserInput = questionMatcher.getBestMatchingQuestion(userQuery);
-    if (BotMockQuestions.MOCK_QUESTIONS.containsKey(normalizedUserInput)) {
+    if (StringUtil.isNotEmpty(normalizedUserInput)
+        && BotMockQuestions.MOCK_QUESTIONS.containsKey(normalizedUserInput)) {
       return generateBotResponses(normalizedUserInput);
     }
     return List.of(new Message(BotMessageTemplates.BOT_MESSAGE_NOT_FOUND, true));
@@ -39,7 +41,6 @@ public class BotResponseGenerator {
     if (Objects.equals(condition, ChatbotCondition.reference)) {
       getAdditionalReferenceSteps(normalizedUserInput).ifPresent(responses::add);
     }
-    responses.add(new Message(BotMessageTemplates.BOT_RESPONSE_END, true));
     return responses;
   }
 
