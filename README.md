@@ -2,7 +2,6 @@
 Chatbot App is an interactive mobile application developed as part of a user study at the University of Tartu. It's designed to assist users in understanding and optimizing their mobile device's energy consumption. Users can communicate with the chatbot in real time, receiving tailored advice and information based on their queries. The app features two distinct modes: "Pervasive chatbot condition" and "Reference chatbot condition," each offering a unique user experience tailored to different research objectives.
 
 ### Features
-### Features
 
 - **Interactive Chat Interface:** Engage in a seamless conversation with our chatbot. The intuitive design ensures users can easily type messages and receive instant responses from the bot.
 - **Dual Modes for Unique Experiences:** 
