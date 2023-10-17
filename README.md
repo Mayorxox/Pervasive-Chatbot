@@ -1,13 +1,16 @@
 ## Android Sensor Usage Chatbot App
-Chatbot App is an interactive mobile application that allows users to communicate with a chatbot, 
-getting responses in real-time. The app features two modes: "Pervasive chatbot condition" and 
-"Reference-chatbot condition", each providing a unique chatbot experience.
+Chatbot App is an interactive mobile application developed as part of a user study at the University of Tartu. It's designed to assist users in understanding and optimizing their mobile device's energy consumption. Users can communicate with the chatbot in real time, receiving tailored advice and information based on their queries. The app features two distinct modes: "Pervasive chatbot condition" and "Reference chatbot condition," each offering a unique user experience tailored to different research objectives.
 
 ### Features
-  **Interactive Chat Interface:** The app provides a simple chat interface for user-bot interaction. The user can type a message and receive a response from the bot.
-  **Two Modes:** Choose between "Pervasive chatbot condition" and "Reference-chatbot condition".
-  **Energy Saving Tips:** Get tips on saving energy based on your queries.
-  **Customizable Responses:** Based on the chosen condition, the chatbot generates unique responses.
+### Features
+
+- **Interactive Chat Interface:** Engage in a seamless conversation with our chatbot. The intuitive design ensures users can easily type messages and receive instant responses from the bot.
+- **Dual Modes for Unique Experiences:** 
+  - **Pervasive Chatbot Condition:** Experience a chatbot that provides concise, direct answers to your queries.
+  - **Reference-Chatbot Condition:** Dive deeper with a chatbot that offers detailed explanations and references for a comprehensive understanding.
+- **Energy Saving Insights:** Not just a regular chatbot! Pose questions about energy conservation and receive practical tips to optimize your device's battery life.
+- **Adaptive Responses:** Depending on the selected mode, the chatbot tailors its responses to offer succinct advice or in-depth information.
+- **Visual Appeal:** The app boasts a user-friendly interface, complemented by smooth animations and visual feedback, enhancing user engagement.
 
 ### Installation
 
