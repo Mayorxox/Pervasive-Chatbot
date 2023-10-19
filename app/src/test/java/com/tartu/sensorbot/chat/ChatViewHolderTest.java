@@ -66,7 +66,7 @@ public class ChatViewHolderTest {
 
     LinearLayout messageContainer = itemView.findViewById(R.id.stepsContainer);
     TextView lastTextView = (TextView) messageContainer.getChildAt(
-        messageContainer.getChildCount() - 1);
+        messageContainer.getChildCount() - 2);
 
     Assert.assertEquals("Reference Text", lastTextView.getText().toString());
   }
