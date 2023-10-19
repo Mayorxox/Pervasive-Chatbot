@@ -15,26 +15,14 @@ public class BotMockQuestions {
           new MessageStep(6, "Migrate computation to your friends or surrounding devices?")
       ),
 """
-          Step 1: Ensure Network Connectivity. Connect your Android device to a network.
-          
-          Step 2: Install and Open an Offloading App. Download, install, and open a computational offloading app.
-          
-          Step 3: Securely log in or authenticate your device and the target device/server.
-          
-          Step 4: Identify and select the computational task to be offloaded.
-          
-          Step 5: Select the device or server to which the task will be offloaded.
-          
-          Step 6: Send the task and necessary data to the chosen device/server.
-          
-          Step 7: Track the progress of the offloaded computational task.
-          
-          Step 8: Once complete, retrieve and check the results for accuracy.
-          
-          Step 9: Safely disconnect from the target device/server.
-          
-          Step 10: Store the retrieved data securely or use it as needed.
-          """
+      Step 1. Setup: Install and open a computational offloading app, ensuring network connectivity.
+      
+      Step 2. Task Selection: Choose the computational task and target device/server.
+      
+      Step 3. Execution: Send the task and data to the destination, monitor progress, and retrieve results.
+      
+      Step 4. Finalize: Safely disconnect, store, or utilize the obtained data as required.
+      """
   );
 
   public static final Map<String, BotAnswer> MOCK_QUESTIONS = Map.of(

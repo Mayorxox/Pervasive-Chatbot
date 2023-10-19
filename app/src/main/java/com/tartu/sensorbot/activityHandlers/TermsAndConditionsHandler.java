@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.tartu.sensorbot.R;
-import com.tartu.sensorbot.util.HtmlDialogDisplayUtil;
+import com.tartu.sensorbot.util.DialogDisplayUtil;
 
 public class TermsAndConditionsHandler {
 
@@ -40,7 +40,7 @@ public class TermsAndConditionsHandler {
     return new ClickableSpan() {
       @Override
       public void onClick(@NonNull View widget) {
-        HtmlDialogDisplayUtil.display(context, R.raw.terms_and_conditions);
+        DialogDisplayUtil.display(context, R.raw.terms_and_conditions);
       }
 
       @Override

@@ -23,7 +23,10 @@
     app:layout_constraintStart_toEndOf="@+id/stepText"
     app:layout_constraintEnd_toStartOf="@+id/time"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintWidth_percent="0.2" />
+    app:layout_constraintWidth_percent="0.2"
+    android:textOn="@string/activate"
+    android:textOff="@string/off"
+    android:textSize="12sp"/>
 
   <TextView
     android:id="@+id/time"

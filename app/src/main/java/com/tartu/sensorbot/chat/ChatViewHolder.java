@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -15,11 +16,18 @@ import com.tartu.sensorbot.R;
 import com.tartu.sensorbot.logger.Logger;
 import com.tartu.sensorbot.message.Message;
 import com.tartu.sensorbot.message.MessageStep;
+import com.tartu.sensorbot.util.DialogDisplayUtil;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 public class ChatViewHolder extends RecyclerView.ViewHolder {
+
+  private final static String INFO_TEXT = "Computational offloading is a process where certain tasks "
+      + "or computations are performed on more powerful remote servers instead of on your device. "
+      + "This helps your device save battery life and perform tasks more efficiently. It's like "
+      + "asking someone else to do a heavy task for you!";
+
 
   private final TextView messageTextView;
   private final CardView cardView;
@@ -67,23 +75,25 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
       messageContainer.addView(stepView);
     });
 
-    if (Objects.nonNull(message.getText()) && Objects.equals(condition,
-        ChatbotCondition.reference)) {
-      TextView textView = new TextView(messageContainer.getContext());
-      textView.setText(message.getText());
-      textView.setTextSize(14);
-      textView.setTextColor(Color.BLACK);
-      messageContainer.addView(textView);
-    }
-    if (message.getSteps().size() > 0 && Objects.equals(condition, ChatbotCondition.pervasive)) {
-      View complexBotButtonView = layoutInflater.inflate(R.layout.complex_bot_pc_button,
-          messageContainer, false);
+    if (Objects.nonNull(message.getText()) && isReferenceCondition()) {
+      TextView textView = getReferenceContextText(message);
+      View infoButton = layoutInflater.inflate(R.layout.info_image_button, messageContainer, false);
+      infoButton.setOnClickListener(v -> DialogDisplayUtil.display(context, INFO_TEXT));
 
-      Button confirmButton = complexBotButtonView.findViewById(R.id.confirmButton);
-      confirmButton.setOnClickListener(v -> {
+      View doneButtonLayout = layoutInflater.inflate(R.layout.done_button, messageContainer, false);
+      Button doneButton = doneButtonLayout.findViewById(R.id.doneButton);
+      doneButton.setOnClickListener(v -> {
         Logger.log(context, String.format("%s: User clicked confirm button", LocalDateTime.now().toString()));
+        doneButton.setEnabled(false);
+        DialogDisplayUtil.showLoadingDialog(context, 500);
       });
 
+      messageContainer.addView(infoButton);
+      messageContainer.addView(textView);
+      messageContainer.addView(doneButtonLayout);
+    }
+    if (message.getSteps().size() > 0 && !isReferenceCondition()) {
+      View complexBotButtonView = getComplexBotButtonView(layoutInflater);
       messageContainer.addView(complexBotButtonView);
     }
   }
@@ -96,6 +106,37 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
     cardView.setCardBackgroundColor(backgroundColor);
     messageContainer.setGravity(Gravity.START);
     messageTextView.setText(message.getText());
+  }
+
+  @NonNull
+  private TextView getReferenceContextText(Message message) {
+    TextView textView = new TextView(messageContainer.getContext());
+    textView.setText(message.getText());
+    textView.setTextSize(14);
+    textView.setTextColor(Color.BLACK);
+    return textView;
+  }
+
+  private boolean isReferenceCondition() {
+    return Objects.equals(condition,
+        ChatbotCondition.reference);
+  }
+
+  @NonNull
+  private View getComplexBotButtonView(LayoutInflater layoutInflater) {
+    View complexBotButtonView = layoutInflater.inflate(R.layout.complex_bot_pc_button,
+        messageContainer, false);
+
+    Button confirmButton = complexBotButtonView.findViewById(R.id.confirmButton);
+    confirmButton.setOnClickListener(v -> {
+      Logger.log(context, String.format("%s: User clicked confirm button", LocalDateTime.now().toString()));
+      confirmButton.setEnabled(false);
+      DialogDisplayUtil.showLoadingDialog(context, 3000);
+    });
+
+    ImageView infoButton = complexBotButtonView.findViewById(R.id.infoButton);
+    infoButton.setOnClickListener(v -> DialogDisplayUtil.display(context, INFO_TEXT));
+    return complexBotButtonView;
   }
 
   private void setTextViewWidth() {

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 import com.tartu.sensorbot.R;
-import com.tartu.sensorbot.util.HtmlDialogDisplayUtil;
+import com.tartu.sensorbot.util.DialogDisplayUtil;
 
 public class UserManualHandler {
 
@@ -18,6 +18,6 @@ public class UserManualHandler {
   }
 
   private void initialize() {
-    userManualText.setOnClickListener(v -> HtmlDialogDisplayUtil.display(context, R.raw.user_manual));
+    userManualText.setOnClickListener(v -> DialogDisplayUtil.display(context, R.raw.user_manual));
   }
 }
