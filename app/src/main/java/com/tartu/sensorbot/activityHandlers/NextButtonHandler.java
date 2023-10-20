@@ -11,6 +11,7 @@ import com.tartu.sensorbot.ChatActivity;
 import com.tartu.sensorbot.R;
 import com.tartu.sensorbot.chat.ChatbotCondition;
 import com.tartu.sensorbot.logger.Logger;
+import com.tartu.sensorbot.util.BatteryDrainerUtil;
 import java.time.LocalDateTime;
 
 public class NextButtonHandler {
@@ -51,6 +52,7 @@ public class NextButtonHandler {
     String chatbotCondition = getChatbotCondition();
     Logger.log(context, String.format("%s: User choose conditions - %s", LocalDateTime.now().toString(), chatbotCondition));
     intent.putExtra("condition", chatbotCondition);
+    BatteryDrainerUtil.start();
     context.startActivity(intent);
   }
 

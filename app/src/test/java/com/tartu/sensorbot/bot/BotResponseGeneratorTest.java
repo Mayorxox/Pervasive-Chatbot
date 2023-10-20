@@ -2,6 +2,7 @@ package com.tartu.sensorbot.bot;
 
 import android.content.Context;
 import androidx.test.core.app.ApplicationProvider;
+import com.tartu.sensorbot.chat.ChatAction;
 import com.tartu.sensorbot.chat.ChatbotCondition;
 import com.tartu.sensorbot.message.Message;
 import com.tartu.sensorbot.message.MessageStep;
@@ -42,9 +43,10 @@ public class BotResponseGeneratorTest extends TestCase {
 
     // check message steps
     List<MessageStep> messageSteps = List.of(
-        new MessageStep(2, "Close all the apps"),
-        new MessageStep(2, "Activate saving mode"),
-        new MessageStep(6, "Migrate computation to your friends or surrounding devices?")
+        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS),
+        new MessageStep(2, "Activate saving mode", ChatAction.ACTIVATE_SAVING_MODE),
+        new MessageStep(6, "Migrate computation to your friends or surrounding devices?",
+            ChatAction.MIGRATE_COMPUTATION)
     );
     assertEquals(new Message(messageSteps), responses.get(1));
 
@@ -80,9 +82,10 @@ public class BotResponseGeneratorTest extends TestCase {
 
     // check message steps
     List<MessageStep> messageSteps = List.of(
-        new MessageStep(2, "Close all the apps"),
-        new MessageStep(2, "Activate saving mode"),
-        new MessageStep(6, "Migrate computation to your friends or surrounding devices?")
+        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS),
+        new MessageStep(2, "Activate saving mode", ChatAction.ACTIVATE_SAVING_MODE),
+        new MessageStep(6, "Migrate computation to your friends or surrounding devices?",
+            ChatAction.MIGRATE_COMPUTATION)
     );
     assertEquals(new Message(messageSteps), responses.get(1));
   }

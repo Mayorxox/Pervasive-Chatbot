@@ -77,8 +77,8 @@ public class ChatViewHolderTest {
     viewHolder = new ChatViewHolder(itemView, Message.VIEW_TYPE_COMPLEX_BOT,
         ChatbotCondition.pervasive);
 
-    List<MessageStep> steps = Arrays.asList(new MessageStep(1, "Time 1"),
-        new MessageStep(2, "Time 2"));
+    List<MessageStep> steps = Arrays.asList(new MessageStep(1, "Time 1", ChatAction.NONE),
+        new MessageStep(2, "Time 2", ChatAction.NONE));
     Mockito.when(mockMessage.getSteps()).thenReturn(steps);
 
     viewHolder.bindComplexBotMessage(mockMessage);

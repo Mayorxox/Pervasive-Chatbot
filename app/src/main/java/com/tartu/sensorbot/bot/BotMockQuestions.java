@@ -1,5 +1,6 @@
 package com.tartu.sensorbot.bot;
 
+import com.tartu.sensorbot.chat.ChatAction;
 import com.tartu.sensorbot.message.MessageStep;
 import java.util.HashMap;
 import java.util.List;
@@ -10,9 +11,10 @@ public class BotMockQuestions {
 
   public static final BotAnswer COMMON_ANSWER = new BotAnswer(
       List.of(
-          new MessageStep(2, "Close all the apps"),
-          new MessageStep(2, "Activate saving mode"),
-          new MessageStep(6, "Migrate computation to your friends or surrounding devices?")
+          new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS),
+          new MessageStep(2, "Activate saving mode", ChatAction.ACTIVATE_SAVING_MODE),
+          new MessageStep(6, "Migrate computation to your friends or surrounding devices?",
+              ChatAction.MIGRATE_COMPUTATION)
       ),
 """
       Step 1. Setup: Install and open a computational offloading app, ensuring network connectivity.
