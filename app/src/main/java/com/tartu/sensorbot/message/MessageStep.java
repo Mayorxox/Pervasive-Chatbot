@@ -1,6 +1,7 @@
 package com.tartu.sensorbot.message;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import com.tartu.sensorbot.util.DialogUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class MessageStep {
 
@@ -26,20 +28,21 @@ public class MessageStep {
   private final String instruction;
   private final ChatAction chatAction;
   private final List<MessageStep> additionalSteps = new ArrayList<>();
-  private final boolean isEnabledByBluetooth;
 
+  private final CheckboxEnabler checkboxEnabler;
   private View clickableElement;
 
-  public MessageStep(int timeInMinutes, String instruction, ChatAction chatAction, boolean isEnabledByBluetooth) {
+  public MessageStep(int timeInMinutes, String instruction, ChatAction chatAction,
+      CheckboxEnabler checkboxEnabler) {
     this.timeInMinutes = timeInMinutes;
     this.instruction = instruction;
     this.chatAction = chatAction;
-    this.isEnabledByBluetooth = isEnabledByBluetooth;
+    this.checkboxEnabler = checkboxEnabler;
   }
 
   public MessageStep(int timeInMinutes, String instruction, ChatAction chatAction,
       List<MessageStep> additionalSteps) {
-    this(timeInMinutes, instruction, chatAction, false);
+    this(timeInMinutes, instruction, chatAction, CheckboxEnabler.NONE);
     this.additionalSteps.addAll(additionalSteps);
   }
 
@@ -92,15 +95,45 @@ public class MessageStep {
     checkBox.setId(viewId);
     checkBox.setEnabled(additionalSteps.isEmpty());
 
-    if (isEnabledByBluetooth) {
+    if (checkboxEnabler.equals(CheckboxEnabler.BLUETOOTH_ON)) {
       checkBox.setEnabled(false);
-      updateCheckBoxBasedOnBluetoothState(checkBox);
+      updateCheckBoxBasedOnBluetoothState(checkBox, true);
 
       IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
       BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-          updateCheckBoxBasedOnBluetoothState(checkBox);
+          updateCheckBoxBasedOnBluetoothState(checkBox, true);
+        }
+      };
+      context.registerReceiver(receiver, filter);
+    } else if (checkboxEnabler.equals(CheckboxEnabler.BLUETOOTH_CONNECTED)) {
+      checkBox.setEnabled(false);
+      final BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+          switch (intent.getAction()) {
+            case BluetoothDevice.ACTION_ACL_CONNECTED -> checkBox.setChecked(true);
+            case BluetoothDevice.ACTION_ACL_DISCONNECTED -> checkBox.setChecked(false);
+          }
+        }
+      };
+
+      IntentFilter filter = new IntentFilter();
+      filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+      filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+      context.registerReceiver(receiver, filter);
+
+      checkBox.setChecked(isAnyDeviceConnected());
+    } else if (checkboxEnabler.equals(CheckboxEnabler.BLUETOOTH_OFF)) {
+      checkBox.setEnabled(false);
+      updateCheckBoxBasedOnBluetoothState(checkBox, false);
+
+      IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+      BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+          updateCheckBoxBasedOnBluetoothState(checkBox, false);
         }
       };
       context.registerReceiver(receiver, filter);
@@ -138,10 +171,26 @@ public class MessageStep {
     new Handler().postDelayed(snackbar::dismiss, 5000);
   }
 
-  private void updateCheckBoxBasedOnBluetoothState(CheckBox checkBox) {
+  private void updateCheckBoxBasedOnBluetoothState(CheckBox checkBox, boolean toOn) {
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     if (bluetoothAdapter != null) {
-      checkBox.setChecked(bluetoothAdapter.isEnabled());
+      boolean checked = toOn == bluetoothAdapter.isEnabled();
+      checkBox.setChecked(checked);
+    }
+  }
+
+  private boolean isAnyDeviceConnected() {
+    BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
+      return false;
+    }
+
+    try {
+      Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+      return !pairedDevices.isEmpty();
+    } catch (SecurityException e) {
+      // Handle the exception according to your needs
+      return false;
     }
   }
 

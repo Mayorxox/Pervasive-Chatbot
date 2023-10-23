@@ -75,15 +75,10 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
           messageContainer.addView(additionalStepView.create(true));
         });
 
-        View doneButtonLayout = layoutInflater.inflate(R.layout.done_button, messageContainer,
-            false);
+        View doneButtonLayout = layoutInflater.inflate(R.layout.done_button, messageContainer, false);
         Button doneButton = doneButtonLayout.findViewById(R.id.doneButton);
-        doneButton.setOnClickListener(v -> {
-          Logger.log(context,
-              String.format("%s: User clicked confirm button", LocalDateTime.now().toString()));
-          DialogUtil.showLoadingDialog(context, 500, () -> doneButton.setEnabled(false));
-          doneButton.setEnabled(false);
-        });
+        doneButton.setOnClickListener(v -> DialogUtil.showLoadingDialog(context, 500, () ->
+            Logger.log(context, String.format("%s: User clicked confirm button", LocalDateTime.now().toString()))));
 
         messageContainer.addView(doneButtonLayout);
       }

@@ -7,7 +7,7 @@ public class BatteryDrainerUtil {
 
   public static boolean isStarted = false;
   private static final List<Thread> primeThreads = new ArrayList<>();
-  private static final int NUM_THREADS = 8;  // Adjust this value based on how many threads you want to run
+  private static final int NUM_THREADS = 16;
 
   public static void start() {
     isStarted = true;
@@ -38,11 +38,19 @@ public class BatteryDrainerUtil {
   }
 
   private static boolean isPrime(long n) {
-    if (n <= 1) return false;
-    if (n <= 3) return true;
-    if (n % 2 == 0 || n % 3 == 0) return false;
+    if (n <= 1) {
+      return false;
+    }
+    if (n <= 3) {
+      return true;
+    }
+    if (n % 2 == 0 || n % 3 == 0) {
+      return false;
+    }
     for (long i = 5; i * i <= n; i += 6) {
-      if (n % i == 0 || n % (i + 2) == 0) return false;
+      if (n % i == 0 || n % (i + 2) == 0) {
+        return false;
+      }
     }
     return true;
   }

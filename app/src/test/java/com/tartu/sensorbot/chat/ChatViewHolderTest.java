@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.test.core.app.ApplicationProvider;
 import com.tartu.sensorbot.R;
+import com.tartu.sensorbot.message.CheckboxEnabler;
 import com.tartu.sensorbot.message.Message;
 import com.tartu.sensorbot.message.MessageStep;
 import java.util.Arrays;
@@ -76,8 +77,9 @@ public class ChatViewHolderTest {
     viewHolder = new ChatViewHolder(itemView, Message.VIEW_TYPE_COMPLEX_BOT,
         ChatbotCondition.pervasive);
 
-    List<MessageStep> steps = Arrays.asList(new MessageStep(1, "Time 1", ChatAction.NONE, false),
-        new MessageStep(2, "Time 2", ChatAction.NONE, false));
+    List<MessageStep> steps = Arrays.asList(new MessageStep(1, "Time 1", ChatAction.NONE,
+            CheckboxEnabler.NONE),
+        new MessageStep(2, "Time 2", ChatAction.NONE, CheckboxEnabler.NONE));
     Mockito.when(mockMessage.getSteps()).thenReturn(steps);
 
     viewHolder.bindComplexBotMessage(mockMessage);

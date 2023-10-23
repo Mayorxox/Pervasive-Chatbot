@@ -1,6 +1,7 @@
 package com.tartu.sensorbot.bot;
 
 import com.tartu.sensorbot.chat.ChatAction;
+import com.tartu.sensorbot.message.CheckboxEnabler;
 import com.tartu.sensorbot.message.MessageStep;
 import com.tartu.sensorbot.util.StringUtil;
 import java.util.List;
@@ -30,25 +31,21 @@ public class BotMockQuestions {
 
   private static BotAnswer getMockAnswer() {
     MessageStep close_the_background_apps = new MessageStep(2, "Close the background apps",
-        ChatAction.CLOSE_APPS, false);
+        ChatAction.CLOSE_APPS, CheckboxEnabler.NONE);
     MessageStep activate_battery_saving_mode = new MessageStep(2, "Activate battery saving mode",
-        ChatAction.ACTIVATE_SAVING_MODE, false);
+        ChatAction.ACTIVATE_SAVING_MODE, CheckboxEnabler.NONE);
     List<MessageStep> referenceSteps = List.of(
         new MessageStep(0,
             "1. Ensure Bluetooth is enabled on both the Android device and the target device",
-            ChatAction.NONE, true),
+            ChatAction.NONE, CheckboxEnabler.BLUETOOTH_ON),
         new MessageStep(0,
-            "2. Choose the computational task that needs to be offloaded.",
+            "2. Connect to target device via bluetooth.",
             ChatAction.NONE,
-            false),
+            CheckboxEnabler.BLUETOOTH_CONNECTED),
         new MessageStep(0,
-            "3. Send the task description and data to the target device via the established Bluetooth connection.",
+            "3. Make sure you turned off bluetooth device.",
             ChatAction.NONE,
-            false),
-        new MessageStep(0,
-            "4. Safely disconnect the Bluetooth connection between the Android device and the target device.",
-            ChatAction.NONE,
-            false)
+            CheckboxEnabler.NONE)
     );
     MessageStep perform_computational_offloading = new MessageStep(6,
         "Perform computational offloading", ChatAction.MIGRATE_COMPUTATION, referenceSteps);

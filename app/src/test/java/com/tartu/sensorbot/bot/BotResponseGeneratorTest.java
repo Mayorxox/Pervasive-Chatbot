@@ -3,6 +3,7 @@ package com.tartu.sensorbot.bot;
 import android.content.Context;
 import androidx.test.core.app.ApplicationProvider;
 import com.tartu.sensorbot.chat.ChatAction;
+import com.tartu.sensorbot.message.CheckboxEnabler;
 import com.tartu.sensorbot.message.Message;
 import com.tartu.sensorbot.message.MessageStep;
 import java.io.IOException;
@@ -44,24 +45,25 @@ public class BotResponseGeneratorTest extends TestCase {
     List<MessageStep> referenceSteps = List.of(
         new MessageStep(0,
             "1. Ensure Bluetooth is enabled on both the Android device and the target device",
-            ChatAction.NONE, true),
+            ChatAction.NONE, CheckboxEnabler.NONE),
         new MessageStep(0,
             "2. Choose the computational task that needs to be offloaded.",
             ChatAction.NONE,
-            false),
+            CheckboxEnabler.NONE),
         new MessageStep(0,
             "3. Send the task description and data to the target device via the established Bluetooth connection.",
             ChatAction.NONE,
-            false),
+            CheckboxEnabler.NONE),
         new MessageStep(0,
             "4. Safely disconnect the Bluetooth connection between the Android device and the target device.",
             ChatAction.NONE,
-            false)
+            CheckboxEnabler.NONE)
     );
 
     List<MessageStep> messageSteps = List.of(
-        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS, false),
-        new MessageStep(2, "Activate battery saving mode", ChatAction.ACTIVATE_SAVING_MODE, false),
+        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS, CheckboxEnabler.NONE),
+        new MessageStep(2, "Activate battery saving mode", ChatAction.ACTIVATE_SAVING_MODE,
+            CheckboxEnabler.NONE),
         new MessageStep(6, "Perform computational offloading",
             ChatAction.MIGRATE_COMPUTATION, referenceSteps)
     );
@@ -85,10 +87,11 @@ public class BotResponseGeneratorTest extends TestCase {
 
     // check message steps
     List<MessageStep> messageSteps = List.of(
-        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS, false),
-        new MessageStep(2, "Activate battery saving mode", ChatAction.ACTIVATE_SAVING_MODE, false),
+        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS, CheckboxEnabler.NONE),
+        new MessageStep(2, "Activate battery saving mode", ChatAction.ACTIVATE_SAVING_MODE,
+            CheckboxEnabler.NONE),
         new MessageStep(6, "Perform computational offloading",
-            ChatAction.MIGRATE_COMPUTATION, false)
+            ChatAction.MIGRATE_COMPUTATION, CheckboxEnabler.NONE)
     );
     assertEquals(new Message(messageSteps), responses.get(1));
   }
