@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class DialogDisplayUtil {
+public class DialogUtil {
 
   public static void display(Context context, int htmlResource) {
     InputStream is = context.getResources().openRawResource(htmlResource);
@@ -69,16 +69,19 @@ public class DialogDisplayUtil {
     dialog.show();
   }
 
-  public static void showLoadingDialog(Context context, int delayMillis) {
+  public static void showLoadingDialog(Context context, int delayMillis, Runnable onDismissed) {
     Dialog dialog = new Dialog(context);
     dialog.setContentView(R.layout.custom_loading_dialog);
     dialog.setCancelable(false); // Dialog cannot be canceled by the user
     dialog.show();
 
-    // Automatically close the dialog after 3 seconds
+    // Automatically close the dialog after delayMillis milliseconds
     new Handler().postDelayed(() -> {
       if (dialog.isShowing()) {
         dialog.dismiss();
+        if (onDismissed != null) {
+          onDismissed.run();
+        }
       }
     }, delayMillis);
   }

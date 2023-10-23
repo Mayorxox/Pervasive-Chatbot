@@ -1,32 +1,39 @@
 package com.tartu.sensorbot.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BatteryDrainerUtil {
 
   public static boolean isStarted = false;
-  private static Thread primeThread;
-
-  public static void calculatePrimes() {
-    long number = 10000000000000L;
-    while (isStarted) {
-      boolean isPrime = isPrime(number);
-      if (isPrime) {
-        System.out.println("Prime: " + number);
-      }
-      number += 1;
-    }
-  }
+  private static final List<Thread> primeThreads = new ArrayList<>();
+  private static final int NUM_THREADS = 8;  // Adjust this value based on how many threads you want to run
 
   public static void start() {
     isStarted = true;
-    primeThread = new Thread(BatteryDrainerUtil::calculatePrimes);
-    primeThread.start();
+    for (int i = 0; i < NUM_THREADS; i++) {
+      Thread primeThread = new Thread(BatteryDrainerUtil::calculatePrimes);
+      primeThreads.add(primeThread);
+      primeThread.start();
+    }
   }
 
   public static void stop() {
     System.out.println("Stopped");
     isStarted = false;
-    if (primeThread != null) {
-      primeThread.interrupt();
+    for (Thread primeThread : primeThreads) {
+      if (primeThread != null) {
+        primeThread.interrupt();
+      }
+    }
+    primeThreads.clear();
+  }
+
+  private static void calculatePrimes() {
+    long number = 10000000000000L;
+    while (isStarted && !Thread.currentThread().isInterrupted()) {
+      isPrime(number);
+      number += 1;
     }
   }
 

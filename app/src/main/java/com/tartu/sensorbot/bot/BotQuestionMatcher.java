@@ -16,12 +16,10 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
 public class BotQuestionMatcher {
 
   private final Tokenizer tokenizer;
-  private final List<String> mockQuestions;
 
   public BotQuestionMatcher(InputStream tokenizerModelStream) {
     try {
       this.tokenizer = new TokenizerME(new TokenizerModel(tokenizerModelStream));
-      this.mockQuestions = new ArrayList<>(BotMockQuestions.MOCK_QUESTIONS.keySet());
     } catch (Exception e) {
       throw new RuntimeException("Failed to initialize.", e);
     }
@@ -29,10 +27,10 @@ public class BotQuestionMatcher {
 
   private static String getWordFromDictionary(String word) {
     LevenshteinDistance ld = new LevenshteinDistance(2);
-    if (BotMockQuestions.DICTIONARY.contains(word)) {
+    if (BotMessageTemplates.DICTIONARY.contains(word)) {
       return word;
     }
-    return BotMockQuestions.DICTIONARY.stream()
+    return BotMessageTemplates.DICTIONARY.stream()
         .min(Comparator.comparingInt(target -> ld.apply(word, target)))
         .orElse(word);
   }
@@ -43,7 +41,7 @@ public class BotQuestionMatcher {
     double maxScore = -1;
     final double THRESHOLD = 0.3;
 
-    for (String mockQuestion : mockQuestions) {
+    for (String mockQuestion : BotMockQuestions.MOCK_QUESTIONS) {
       double score = computeTokenOverlapScore(userInputTokens, tokenizeAndNormalize(mockQuestion));
       if (score > maxScore && score >= THRESHOLD) {
         maxScore = score;
@@ -59,7 +57,7 @@ public class BotQuestionMatcher {
     for (String s : tokens) {
       String token = s.toLowerCase();
       List<String> synonyms = new ArrayList<>(
-          Objects.requireNonNull(BotMockQuestions.SYNONYM_MAP.getOrDefault(token, Set.of(token))));
+          Objects.requireNonNull(BotMessageTemplates.SYNONYM_MAP.getOrDefault(token, Set.of(token))));
       normalizedTokens.addAll(synonyms);
     }
     return normalizedTokens;

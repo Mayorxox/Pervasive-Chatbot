@@ -19,4 +19,5 @@
   <string name="done">Done</string>
   <string name="activate">Activate</string>
   <string name="off">Off</string>
+  <string name="what_is_computational_offloading">What is computational offloading?</string>
 </resources>

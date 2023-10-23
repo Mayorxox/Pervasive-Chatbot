@@ -9,6 +9,7 @@ import com.tartu.sensorbot.activityHandlers.NextButtonHandler;
 import com.tartu.sensorbot.activityHandlers.TermsAndConditionsHandler;
 import com.tartu.sensorbot.activityHandlers.UserManualHandler;
 import com.tartu.sensorbot.logger.LoggerPermissionUtil;
+import com.tartu.sensorbot.util.BatteryDrainerUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onResume() {
     super.onResume();
+    BatteryDrainerUtil.stop();
     loggerPermissionUtil.checkPermissionsAndSettings();
   }
 

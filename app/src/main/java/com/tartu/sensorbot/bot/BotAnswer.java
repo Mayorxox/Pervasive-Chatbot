@@ -11,6 +11,7 @@ public class BotAnswer {
   private final List<MessageStep> steps;
 
   private final String message;
+
   public BotAnswer(List<MessageStep> steps, String message) {
     this.steps = steps;
     this.message = message;
@@ -49,5 +50,4 @@ public class BotAnswer {
         "steps=" + steps + ", " +
         "message=" + message + ']';
   }
-
 }

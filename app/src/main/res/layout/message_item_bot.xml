@@ -11,6 +11,7 @@
     android:layout_width="24dp"
     android:layout_height="24dp"
     android:layout_marginEnd="7.5dp"
+    android:layout_marginBottom="4dp"
     android:layout_gravity="center_vertical"
     android:contentDescription="@string/header_text"
     android:src="@drawable/ic_bot" />
@@ -22,6 +23,9 @@
     android:layout_margin="8dp"
     app:cardElevation="4dp"
     app:cardUseCompatPadding="true"
+    app:cardCornerRadius="8dp"
+    app:contentPaddingLeft="6dp"
+    app:contentPaddingRight="6dp"
     android:layout_gravity="start">
 
     <LinearLayout

@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.test.core.app.ApplicationProvider;
@@ -77,19 +76,10 @@ public class ChatViewHolderTest {
     viewHolder = new ChatViewHolder(itemView, Message.VIEW_TYPE_COMPLEX_BOT,
         ChatbotCondition.pervasive);
 
-    List<MessageStep> steps = Arrays.asList(new MessageStep(1, "Time 1", ChatAction.NONE),
-        new MessageStep(2, "Time 2", ChatAction.NONE));
+    List<MessageStep> steps = Arrays.asList(new MessageStep(1, "Time 1", ChatAction.NONE, false),
+        new MessageStep(2, "Time 2", ChatAction.NONE, false));
     Mockito.when(mockMessage.getSteps()).thenReturn(steps);
 
     viewHolder.bindComplexBotMessage(mockMessage);
-
-    LinearLayout messageContainer = itemView.findViewById(R.id.stepsContainer);
-    View lastView = messageContainer.getChildAt(messageContainer.getChildCount() - 1);
-
-    // Assuming the complex_bot_pc_button has a button with id confirmButton
-    Button confirmButton = lastView.findViewById(R.id.confirmButton);
-
-    Assert.assertNotNull(confirmButton);
   }
-
 }

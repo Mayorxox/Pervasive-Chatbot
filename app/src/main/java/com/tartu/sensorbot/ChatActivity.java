@@ -36,7 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     this.messageAdapter = new MessageAdapter(condition);
 
     try {
-      responseGenerator = new BotResponseGenerator(condition, this);
+      responseGenerator = new BotResponseGenerator(this);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

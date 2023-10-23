@@ -3,7 +3,6 @@ package com.tartu.sensorbot.bot;
 import android.content.Context;
 import androidx.test.core.app.ApplicationProvider;
 import com.tartu.sensorbot.chat.ChatAction;
-import com.tartu.sensorbot.chat.ChatbotCondition;
 import com.tartu.sensorbot.message.Message;
 import com.tartu.sensorbot.message.MessageStep;
 import java.io.IOException;
@@ -30,46 +29,50 @@ public class BotResponseGeneratorTest extends TestCase {
   public void testGenerateResponseWithReference() throws IOException {
     // Given
     String userQuery = "How to save energy";
-    BotResponseGenerator generator = new BotResponseGenerator(ChatbotCondition.reference, context);
+    BotResponseGenerator generator = new BotResponseGenerator(context);
 
     // When
     List<Message> responses = generator.generateResponse(userQuery);
 
     // Then
-    assertEquals(3, responses.size());
+    assertEquals(2, responses.size());
 
     // Check start message
     assertEquals(BotMessageTemplates.BOT_RESPONSE_START, responses.get(0).getText());
 
     // check message steps
+    List<MessageStep> referenceSteps = List.of(
+        new MessageStep(0,
+            "1. Ensure Bluetooth is enabled on both the Android device and the target device",
+            ChatAction.NONE, true),
+        new MessageStep(0,
+            "2. Choose the computational task that needs to be offloaded.",
+            ChatAction.NONE,
+            false),
+        new MessageStep(0,
+            "3. Send the task description and data to the target device via the established Bluetooth connection.",
+            ChatAction.NONE,
+            false),
+        new MessageStep(0,
+            "4. Safely disconnect the Bluetooth connection between the Android device and the target device.",
+            ChatAction.NONE,
+            false)
+    );
+
     List<MessageStep> messageSteps = List.of(
-        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS),
-        new MessageStep(2, "Activate saving mode", ChatAction.ACTIVATE_SAVING_MODE),
-        new MessageStep(6, "Migrate computation to your friends or surrounding devices?",
-            ChatAction.MIGRATE_COMPUTATION)
+        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS, false),
+        new MessageStep(2, "Activate battery saving mode", ChatAction.ACTIVATE_SAVING_MODE, false),
+        new MessageStep(6, "Perform computational offloading",
+            ChatAction.MIGRATE_COMPUTATION, referenceSteps)
     );
     assertEquals(new Message(messageSteps), responses.get(1));
-
-    // check reference messages
-    Message message = new Message(
-        """
-          Step 1. Setup: Install and open a computational offloading app, ensuring network connectivity.
-          
-          Step 2. Task Selection: Choose the computational task and target device/server.
-          
-          Step 3. Execution: Send the task and data to the destination, monitor progress, and retrieve results.
-          
-          Step 4. Finalize: Safely disconnect, store, or utilize the obtained data as required.
-          """,
-        Message.VIEW_TYPE_COMPLEX_BOT);
-    assertEquals(message, responses.get(2));
   }
 
   @Test
   public void testGenerateResponseWithoutReference() throws IOException {
     // Given
     String userQuery = "how to save battery ";
-    BotResponseGenerator generator = new BotResponseGenerator(ChatbotCondition.pervasive, context);
+    BotResponseGenerator generator = new BotResponseGenerator(context);
 
     // When
     List<Message> responses = generator.generateResponse(userQuery);
@@ -82,10 +85,10 @@ public class BotResponseGeneratorTest extends TestCase {
 
     // check message steps
     List<MessageStep> messageSteps = List.of(
-        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS),
-        new MessageStep(2, "Activate saving mode", ChatAction.ACTIVATE_SAVING_MODE),
-        new MessageStep(6, "Migrate computation to your friends or surrounding devices?",
-            ChatAction.MIGRATE_COMPUTATION)
+        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS, false),
+        new MessageStep(2, "Activate battery saving mode", ChatAction.ACTIVATE_SAVING_MODE, false),
+        new MessageStep(6, "Perform computational offloading",
+            ChatAction.MIGRATE_COMPUTATION, false)
     );
     assertEquals(new Message(messageSteps), responses.get(1));
   }
