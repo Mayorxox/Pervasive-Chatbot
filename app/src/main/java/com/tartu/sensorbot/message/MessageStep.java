@@ -201,6 +201,7 @@ public class MessageStep {
         "timeInMinutes=" + timeInMinutes +
         ", instruction='" + instruction + '\'' +
         ", chatAction='" + chatAction + '\'' +
+        ", additionalSteps='" + additionalSteps + '\'' +
         '}';
   }
 
@@ -221,6 +222,9 @@ public class MessageStep {
     if (chatAction != that.chatAction) {
       return false;
     }
+    if (!Objects.equals(additionalSteps, that.additionalSteps)) {
+      return false;
+    }
     return Objects.equals(instruction, that.instruction);
   }
 
@@ -229,6 +233,7 @@ public class MessageStep {
     int result = timeInMinutes;
     result = 31 * result + Objects.hashCode(chatAction);
     result = 31 * result + Objects.hashCode(instruction);
+    result = 31 * result + Objects.hashCode(additionalSteps);
     return result;
   }
 }

@@ -39,13 +39,13 @@ public class BotMockQuestions {
             "1. Ensure Bluetooth is enabled on both the Android device and the target device",
             ChatAction.NONE, CheckboxEnabler.BLUETOOTH_ON),
         new MessageStep(0,
-            "2. Connect to target device via bluetooth.",
+            "2. Find a target device (e.g. nearby laptop, phone).",
             ChatAction.NONE,
             CheckboxEnabler.BLUETOOTH_CONNECTED),
         new MessageStep(0,
-            "3. Make sure you turned off bluetooth device.",
+            "3. Connect to the target device.",
             ChatAction.NONE,
-            CheckboxEnabler.NONE)
+            CheckboxEnabler.BLUETOOTH_CONNECTED)
     );
     MessageStep perform_computational_offloading = new MessageStep(6,
         "Perform computational offloading", ChatAction.MIGRATE_COMPUTATION, referenceSteps);
