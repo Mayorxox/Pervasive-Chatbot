@@ -42,7 +42,9 @@ public class NextButtonHandler {
     });
 
     termsCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-      Logger.log(context, String.format("%s: User is %s terms and conditions", LocalDateTime.now().toString(), isChecked ? "Accepted" : "Declined"));
+      Logger.log(context,
+          String.format("%s: User is %s terms and conditions", LocalDateTime.now().toString(),
+              isChecked ? "Accepted" : "Declined"));
       updateNextButton(isChecked, radioGroup.getCheckedRadioButtonId() != -1);
     });
   }
@@ -50,7 +52,9 @@ public class NextButtonHandler {
   private void startChatActivity() {
     Intent intent = new Intent(context, ChatActivity.class);
     String chatbotCondition = getChatbotCondition();
-    Logger.log(context, String.format("%s: User choose conditions - %s", LocalDateTime.now().toString(), chatbotCondition));
+    Logger.log(context,
+        String.format("%s: User choose conditions - %s", LocalDateTime.now().toString(),
+            chatbotCondition));
     intent.putExtra("condition", chatbotCondition);
     BatteryDrainerUtil.start();
     context.startActivity(intent);

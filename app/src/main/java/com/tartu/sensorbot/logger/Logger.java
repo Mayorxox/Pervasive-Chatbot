@@ -20,7 +20,8 @@ public class Logger {
   private static final String CSV_HEADER = "Timestamp,Message,Package,Type,Source Class,View Resource ID,Content Description,Time,Record Count\n";
 
   public static void log(Context context, String message) {
-    String logEntry = String.format("%s,%s\n", LocalDateTime.now().toString(), StringUtil.escapeForCsv(message));
+    String logEntry = String.format("%s,%s\n", LocalDateTime.now().toString(),
+        StringUtil.escapeForCsv(message));
 
     writeLogEntry(context, logEntry);
   }
@@ -32,7 +33,8 @@ public class Logger {
         StringUtil.escapeForCsv(event.getText()),
         StringUtil.escapeForCsv(event.getPackageName()),
         StringUtil.escapeForCsv(AccessibilityEvent.eventTypeToString(event.getEventType())),
-        StringUtil.escapeForCsv(event.getClassName() != null ? event.getClassName().toString() : "N/A"),
+        StringUtil.escapeForCsv(
+            event.getClassName() != null ? event.getClassName().toString() : "N/A"),
         StringUtil.escapeForCsv(getViewIdResourceId(event)),
         StringUtil.escapeForCsv(event.getContentDescription()),
         StringUtil.escapeForCsv(Long.toString(event.getEventTime())),
@@ -75,7 +77,8 @@ public class Logger {
 
       String line;
       while ((line = br.readLine()) != null) {
-        String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1); // This regex splits by commas outside of quotes
+        String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+            -1); // This regex splits by commas outside of quotes
         sb.append(getLogLine(values));
       }
 

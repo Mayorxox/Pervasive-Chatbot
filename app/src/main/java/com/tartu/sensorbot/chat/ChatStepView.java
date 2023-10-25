@@ -35,7 +35,8 @@ public class ChatStepView {
 
     if (isPervasive() || !ChatAction.MIGRATE_COMPUTATION.equals(step.getChatAction())) {
       View clickableElement = createClickableElement();
-      LayoutParams clickableElementParams = createLayoutParams(stepText.getId(), isAdditionalStep ? 0.2f : 0.3f);
+      LayoutParams clickableElementParams = createLayoutParams(stepText.getId(),
+          isAdditionalStep ? 0.2f : 0.3f);
       stepLayout.addView(clickableElement, clickableElementParams);
 
       if (step.getTimeInMinutes() > 0) {

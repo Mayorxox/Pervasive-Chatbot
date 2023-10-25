@@ -57,7 +57,8 @@ public class BotResponseGeneratorTest extends TestCase {
     );
 
     List<MessageStep> messageSteps = List.of(
-        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS, CheckboxEnabler.NONE),
+        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS,
+            CheckboxEnabler.NONE),
         new MessageStep(2, "Activate battery saving mode", ChatAction.ACTIVATE_SAVING_MODE,
             CheckboxEnabler.NONE),
         new MessageStep(6, "Perform computational offloading",
@@ -97,7 +98,8 @@ public class BotResponseGeneratorTest extends TestCase {
     );
 
     List<MessageStep> messageSteps = List.of(
-        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS, CheckboxEnabler.NONE),
+        new MessageStep(2, "Close the background apps", ChatAction.CLOSE_APPS,
+            CheckboxEnabler.NONE),
         new MessageStep(2, "Activate battery saving mode", ChatAction.ACTIVATE_SAVING_MODE,
             CheckboxEnabler.NONE),
         new MessageStep(6, "Perform computational offloading",

@@ -57,7 +57,8 @@ public class BotQuestionMatcher {
     for (String s : tokens) {
       String token = s.toLowerCase();
       List<String> synonyms = new ArrayList<>(
-          Objects.requireNonNull(BotMessageTemplates.SYNONYM_MAP.getOrDefault(token, Set.of(token))));
+          Objects.requireNonNull(
+              BotMessageTemplates.SYNONYM_MAP.getOrDefault(token, Set.of(token))));
       normalizedTokens.addAll(synonyms);
     }
     return normalizedTokens;

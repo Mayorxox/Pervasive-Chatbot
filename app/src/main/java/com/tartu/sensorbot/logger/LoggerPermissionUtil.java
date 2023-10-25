@@ -25,7 +25,7 @@ public class LoggerPermissionUtil {
     }
 
     boolean isAccessibilityServiceEnabled = getEnabledServices().stream().anyMatch(
-            service -> isAccessibilityServiceEnabled(service, LogActivityService.class.getName()));
+        service -> isAccessibilityServiceEnabled(service, LogActivityService.class.getName()));
     if (!isAccessibilityServiceEnabled) {
       showEnableAccessibilityServiceAlert();
     }
@@ -37,16 +37,19 @@ public class LoggerPermissionUtil {
 
   private boolean hasUsageStatsPermission() {
     AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-    int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, android.os.Process.myUid(), context.getPackageName());
+    int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+        android.os.Process.myUid(), context.getPackageName());
     return mode == AppOpsManager.MODE_ALLOWED;
   }
 
   private List<AccessibilityServiceInfo> getEnabledServices() {
-    AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
+    AccessibilityManager am = (AccessibilityManager) context.getSystemService(
+        Context.ACCESSIBILITY_SERVICE);
     return am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK);
   }
 
-  private boolean isAccessibilityServiceEnabled(AccessibilityServiceInfo enabledService, String serviceName) {
+  private boolean isAccessibilityServiceEnabled(AccessibilityServiceInfo enabledService,
+      String serviceName) {
     ServiceInfo enabledServiceInfo = enabledService.getResolveInfo().serviceInfo;
     return enabledServiceInfo.packageName.equals(context.getPackageName())
         && enabledServiceInfo.name.equals(serviceName);
@@ -55,7 +58,8 @@ public class LoggerPermissionUtil {
   private void showEnableAccessibilityServiceAlert() {
     new AlertDialog.Builder(context)
         .setTitle("Enable Accessibility Service")
-        .setMessage("For the user study, please enable the UserActivityService in the accessibility settings.")
+        .setMessage(
+            "For the user study, please enable the UserActivityService in the accessibility settings.")
         .setPositiveButton("Go to Settings", (dialog, which) -> {
           // Direct the user to the accessibility settings
           startActivity(Settings.ACTION_ACCESSIBILITY_SETTINGS);

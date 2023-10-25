@@ -9,6 +9,16 @@ import android.view.accessibility.AccessibilityEvent;
 
 public class LogActivityService extends AccessibilityService {
 
+  private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      // Handle system broadcasts
+      if ("android.net.conn.CONNECTIVITY_CHANGE".equals(intent.getAction())) {
+        Logger.log(getContext(), "Connectivity changed");
+      }
+    }
+  };
+
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event) {
     Logger.log(this, event);
@@ -38,16 +48,6 @@ public class LogActivityService extends AccessibilityService {
     unregisterReceiver(broadcastReceiver);
     Logger.log(this, "Unregistered from system broadcasts.");
   }
-
-  private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-      // Handle system broadcasts
-      if ("android.net.conn.CONNECTIVITY_CHANGE".equals(intent.getAction())) {
-        Logger.log(getContext(), "Connectivity changed");
-      }
-    }
-  };
 
   private Context getContext() {
     return this;

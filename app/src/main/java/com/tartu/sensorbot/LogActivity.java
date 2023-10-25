@@ -61,7 +61,8 @@ public class LogActivity extends AppCompatActivity {
     Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
     intent.addCategory(Intent.CATEGORY_OPENABLE);
     intent.setType("text/csv");
-    intent.putExtra(Intent.EXTRA_TITLE, String.format("logs_%s.csv", LocalDateTime.now().toString()));
+    intent.putExtra(Intent.EXTRA_TITLE,
+        String.format("logs_%s.csv", LocalDateTime.now().toString()));
 
     resultLauncher.launch(intent);
   }

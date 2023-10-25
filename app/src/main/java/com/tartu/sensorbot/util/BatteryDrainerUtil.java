@@ -5,9 +5,9 @@ import java.util.List;
 
 public class BatteryDrainerUtil {
 
-  public static boolean isStarted = false;
   private static final List<Thread> primeThreads = new ArrayList<>();
   private static final int NUM_THREADS = 16;
+  public static boolean isStarted = false;
 
   public static void start() {
     isStarted = true;

@@ -67,7 +67,8 @@ public class ChatActivity extends AppCompatActivity {
   private void onSendButtonClick() {
     String userMessage = inputEditText.getText().toString().trim();
     if (!userMessage.isEmpty()) {
-      Logger.log(this, String.format("%s: User added message %s", LocalDateTime.now().toString(), userMessage));
+      Logger.log(this,
+          String.format("%s: User added message %s", LocalDateTime.now().toString(), userMessage));
       messageAdapter.addMessage(userMessage, false);
       inputEditText.setText("");
       simulateBotResponse(userMessage);
