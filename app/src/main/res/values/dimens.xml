@@ -1,4 +1,4 @@
 <resources>
-  <dimen name="vertical_space_height">16dp</dimen>
-  <dimen name="icon_size">48dp</dimen>
+  <dimen name="padding_8">8dp</dimen>
+  <dimen name="padding_16">16dp</dimen>
 </resources>

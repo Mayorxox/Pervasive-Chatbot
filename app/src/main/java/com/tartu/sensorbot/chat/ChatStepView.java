@@ -3,6 +3,7 @@ package com.tartu.sensorbot.chat;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,17 +12,24 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
 import com.tartu.sensorbot.R;
 import com.tartu.sensorbot.message.MessageStep;
+import java.util.Objects;
 
 public class ChatStepView {
 
   private final MessageStep step;
   private final String condition;
   private final Context context;
+  private CheckManager checkManager;
 
   public ChatStepView(MessageStep step, String condition, Context context) {
     this.step = step;
     this.condition = condition;
     this.context = context;
+  }
+
+  public ChatStepView(MessageStep step, String condition, Context context, CheckManager checkManager) {
+    this(step, condition, context);
+    this.checkManager = checkManager;
   }
 
   public View create(boolean isAdditionalStep) {
@@ -35,6 +43,11 @@ public class ChatStepView {
 
     if (isPervasive() || !ChatAction.MIGRATE_COMPUTATION.equals(step.getChatAction())) {
       View clickableElement = createClickableElement();
+
+      if (Objects.nonNull(checkManager) && clickableElement instanceof CheckBox) {
+        checkManager.addCheckBox((CheckBox) clickableElement);
+      }
+
       LayoutParams clickableElementParams = createLayoutParams(stepText.getId(),
           isAdditionalStep ? 0.2f : 0.3f);
       stepLayout.addView(clickableElement, clickableElementParams);

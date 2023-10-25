@@ -3,7 +3,7 @@
   android:id="@+id/computational_offloading_container"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:padding="8dp">
+  android:padding="@dimen/padding_8">
 
   <ImageView
     android:id="@+id/infoButton"
@@ -19,7 +19,7 @@
     android:textStyle="italic"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="8dp"
+    android:layout_marginEnd="@dimen/padding_8"
     android:layout_centerVertical="true"
     android:layout_toStartOf="@+id/infoButton"
     android:text="@string/what_is_computational_offloading" />

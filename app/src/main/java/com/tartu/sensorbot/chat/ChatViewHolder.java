@@ -15,6 +15,7 @@ import com.tartu.sensorbot.R;
 import com.tartu.sensorbot.logger.Logger;
 import com.tartu.sensorbot.message.Message;
 import com.tartu.sensorbot.message.MessageStep;
+import com.tartu.sensorbot.util.BatteryDrainerUtil;
 import com.tartu.sensorbot.util.DialogUtil;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -70,17 +71,22 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
       messageContainer.addView(stepView.create(false));
 
       if (!step.getAdditionalSteps().isEmpty() && isReferenceCondition()) {
-        step.getAdditionalSteps().forEach(additionalStep -> {
-          ChatStepView additionalStepView = new ChatStepView(additionalStep, condition, context);
-          messageContainer.addView(additionalStepView.create(true));
-        });
-
         View doneButtonLayout = layoutInflater.inflate(R.layout.done_button, messageContainer,
             false);
         Button doneButton = doneButtonLayout.findViewById(R.id.doneButton);
-        doneButton.setOnClickListener(v -> DialogUtil.showLoadingDialog(context, 500, () ->
-            Logger.log(context,
-                String.format("%s: User clicked confirm button", LocalDateTime.now().toString()))));
+        doneButton.setOnClickListener(v -> DialogUtil.showLoadingDialog(context, 750, () ->
+        {
+          Logger.log(context, String.format("%s: User clicked confirm button", LocalDateTime.now().toString()));
+          doneButton.setEnabled(false);
+          BatteryDrainerUtil.stop();
+        }));
+
+        CheckManager checkManager = new CheckManager(doneButton);
+
+        step.getAdditionalSteps().forEach(additionalStep -> {
+          ChatStepView additionalStepView = new ChatStepView(additionalStep, condition, context, checkManager);
+          messageContainer.addView(additionalStepView.create(true));
+        });
 
         messageContainer.addView(doneButtonLayout);
       }

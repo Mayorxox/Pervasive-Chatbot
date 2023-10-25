@@ -78,7 +78,7 @@ public class MessageStep {
     return clickableElement;
   }
 
-  private View getMessageButton(Context context) {
+  private Button getMessageButton(Context context) {
     int viewId = View.generateViewId();
     Button button = new Button(context);
     button.setId(viewId);
@@ -89,7 +89,7 @@ public class MessageStep {
     return button;
   }
 
-  private View getMessageCheckout(Context context) {
+  private CheckBox getMessageCheckout(Context context) {
     int viewId = View.generateViewId();
     CheckBox checkBox = new CheckBox(context);
     checkBox.setId(viewId);

@@ -1,16 +1,13 @@
 <resources>
   <string name="app_name">Sensorbot</string>
   <string name="user">User</string>
-  <string name="confirm_offloading_button_text">Confirm offloading</string>
   <string name="header_text">Chatbot</string>
   <string name="history_icon_description">history icon</string>
   <string name="header_robot_icon_description">header robot icon</string>
-  <string name="battery_icon_description">battery icon</string>
-  <string name="reference_chatbot_button_text">Reference-chatbot</string>
-  <string name="pervasive_chatbot_button_text">Pervasive-chatbot</string>
+  <string name="reference_chatbot_button_text">Reference chatbot</string>
+  <string name="pervasive_chatbot_button_text">Pervasive chatbot</string>
   <string name="user_manual_text"><u>User manual</u></string>
   <string name="next_button_text">Next</string>
-  <string name="accessibility_service_description">Test</string>
   <string name="app_logs_text">See logs</string>
   <string name="log_export_button_text">Export</string>
   <string name="clear_logs_button_text">Clear logs</string>
@@ -18,6 +15,7 @@
   <string name="loading">Loading…</string>
   <string name="done">Done</string>
   <string name="activate">Activate</string>
-  <string name="off">Off</string>
   <string name="what_is_computational_offloading">What is computational offloading?</string>
+  <string name="enter_your_question">Enter your question</string>
+  <string name="send">Send</string>
 </resources>
