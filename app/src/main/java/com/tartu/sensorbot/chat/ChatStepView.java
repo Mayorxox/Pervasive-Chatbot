@@ -70,7 +70,8 @@ public class ChatStepView {
     timeLayout.setId(View.generateViewId());
 
     ImageView timeIcon = new ImageView(context);
-    timeIcon.setImageResource(R.drawable.ic_time);
+    timeIcon.setImageResource(R.drawable.ic_add_time);
+    timeIcon.setContentDescription(String.format("Add %s to battery life", step.getTime()));
     timeIcon.setLayoutParams(new LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.WRAP_CONTENT,
         LinearLayout.LayoutParams.WRAP_CONTENT
