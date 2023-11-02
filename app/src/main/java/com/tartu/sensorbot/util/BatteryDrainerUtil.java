@@ -37,7 +37,7 @@ public class BatteryDrainerUtil {
     }
   }
 
-  private static boolean isPrime(long n) {
+  protected static boolean isPrime(long n) {
     if (n <= 1) {
       return false;
     }

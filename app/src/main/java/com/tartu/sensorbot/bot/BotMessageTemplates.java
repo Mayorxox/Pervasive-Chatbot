@@ -6,7 +6,10 @@ import java.util.Set;
 
 public class BotMessageTemplates {
 
-  public static final String INITIAL_BOT_MESSAGE = "Hello, how can I help you today?";
+  public static final String INITIAL_BOT_MESSAGE = "Welcome to the SensorBot! \uD83D\uDC4B "
+      + "I'm here to help you learn how to save energy and preserve battery life. "
+      + "Just ask me questions like 'How to save energy?' or 'Tips for conserving battery power,' "
+      + "and I'll provide you with useful steps and advice. Feel free to get started!";
   public static final String BOT_RESPONSE_START = "Sure! Here are some suggestions on how you can do that";
   public static final String BOT_MESSAGE_NOT_FOUND = "I'm not sure about that. Can you provide more details or ask in a different way?";
 

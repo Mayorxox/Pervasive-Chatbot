@@ -7,16 +7,19 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import com.google.android.material.snackbar.Snackbar;
 import com.tartu.sensorbot.R;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Optional;
 
 public class DialogUtil {
 
@@ -44,31 +47,6 @@ public class DialogUtil {
     showModalDialog(context, content);
   }
 
-  private static void showModalDialog(Context context, String content) {
-    // Create custom dialog object
-    final Dialog dialog = new Dialog(context);
-
-    // Set dialog to not use the title bar
-    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-    dialog.setContentView(R.layout.dialog_content);
-
-    // Set dialog width and height as described
-    LayoutParams layoutParams = getScreenLayoutParams(context, dialog);
-    dialog.getWindow().setAttributes(layoutParams);
-
-    // Close button
-    ImageButton closeButton = dialog.findViewById(R.id.closeButton);
-    closeButton.setOnClickListener(view -> dialog.dismiss());
-
-    // Set content text
-    TextView dialogContent = dialog.findViewById(R.id.dialogContent);
-    dialogContent.setText(content);
-
-    // Allow the dialog to be canceled if touched outside
-    dialog.setCanceledOnTouchOutside(true);
-    dialog.show();
-  }
-
   public static void showLoadingDialog(Context context, int delayMillis, Runnable onDismissed) {
     Dialog dialog = new Dialog(context);
     dialog.setContentView(R.layout.custom_loading_dialog);
@@ -86,13 +64,46 @@ public class DialogUtil {
     }, delayMillis);
   }
 
+  public static void showSnackbar(View view, String message) {
+    Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+    snackbar.setAction("OK", v -> snackbar.dismiss());
+    snackbar.show();
+
+    // Dismiss the Snackbar automatically after 5 seconds
+    new Handler().postDelayed(snackbar::dismiss, 5000);
+  }
+
+  private static void showModalDialog(Context context, String content) {
+    // Create custom dialog object
+    final Dialog dialog = new Dialog(context);
+
+    // Set dialog to not use the title bar
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    dialog.setContentView(R.layout.dialog_content);
+
+    // Set dialog width and height as described
+    LayoutParams layoutParams = getScreenLayoutParams(context, dialog);
+    Optional.ofNullable(dialog.getWindow()).ifPresent(window -> window.setAttributes(layoutParams));
+
+    // Close button
+    ImageButton closeButton = dialog.findViewById(R.id.closeButton);
+    closeButton.setOnClickListener(view -> dialog.dismiss());
+
+    // Set content text
+    TextView dialogContent = dialog.findViewById(R.id.dialogContent);
+    dialogContent.setText(content);
+
+    // Allow the dialog to be canceled if touched outside
+    dialog.setCanceledOnTouchOutside(true);
+    dialog.show();
+  }
+
   @NonNull
   private static LayoutParams getScreenLayoutParams(Context context, Dialog dialog) {
     LayoutParams lp = new LayoutParams();
-    lp.copyFrom(dialog.getWindow().getAttributes());
+    Optional.ofNullable(dialog.getWindow()).ifPresent(window -> lp.copyFrom(window.getAttributes()));
     lp.width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.85);
     lp.height = (int) (context.getResources().getDisplayMetrics().heightPixels * 0.67);
     return lp;
   }
-
 }

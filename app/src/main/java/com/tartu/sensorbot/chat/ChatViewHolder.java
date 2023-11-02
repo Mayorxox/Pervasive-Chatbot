@@ -76,15 +76,20 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
         Button doneButton = doneButtonLayout.findViewById(R.id.doneButton);
         doneButton.setOnClickListener(v -> DialogUtil.showLoadingDialog(context, 750, () ->
         {
-          Logger.log(context, String.format("%s: User clicked confirm button", LocalDateTime.now().toString()));
+          Logger.log(context,
+              String.format("%s: User clicked confirm button", LocalDateTime.now().toString()));
           doneButton.setEnabled(false);
-          BatteryDrainerUtil.stop();
+          DialogUtil.showLoadingDialog(context, 300, () -> {
+            DialogUtil.showSnackbar(v, "Tasks are migrated successfully");
+            BatteryDrainerUtil.stop();
+          });
         }));
 
         CheckManager checkManager = new CheckManager(doneButton);
 
         step.getAdditionalSteps().forEach(additionalStep -> {
-          ChatStepView additionalStepView = new ChatStepView(additionalStep, condition, context, checkManager);
+          ChatStepView additionalStepView = new ChatStepView(additionalStep, condition, context,
+              checkManager);
           messageContainer.addView(additionalStepView.create(true));
         });
 

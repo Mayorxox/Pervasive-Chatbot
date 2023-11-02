@@ -27,7 +27,8 @@ public class ChatStepView {
     this.context = context;
   }
 
-  public ChatStepView(MessageStep step, String condition, Context context, CheckManager checkManager) {
+  public ChatStepView(MessageStep step, String condition, Context context,
+      CheckManager checkManager) {
     this(step, condition, context);
     this.checkManager = checkManager;
   }

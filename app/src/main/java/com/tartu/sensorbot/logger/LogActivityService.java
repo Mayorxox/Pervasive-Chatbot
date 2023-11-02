@@ -12,7 +12,6 @@ public class LogActivityService extends AccessibilityService {
   private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
     @Override
     public void onReceive(Context context, Intent intent) {
-      // Handle system broadcasts
       if ("android.net.conn.CONNECTIVITY_CHANGE".equals(intent.getAction())) {
         Logger.log(getContext(), "Connectivity changed");
       }

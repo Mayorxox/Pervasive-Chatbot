@@ -6,13 +6,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import com.google.android.material.snackbar.Snackbar;
 import com.tartu.sensorbot.R;
 import com.tartu.sensorbot.chat.ChatAction;
 import com.tartu.sensorbot.util.BatteryDrainerUtil;
@@ -112,9 +110,10 @@ public class MessageStep {
       final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-          switch (intent.getAction()) {
-            case BluetoothDevice.ACTION_ACL_CONNECTED -> checkBox.setChecked(true);
-            case BluetoothDevice.ACTION_ACL_DISCONNECTED -> checkBox.setChecked(false);
+          if (Objects.equals(intent.getAction(), BluetoothDevice.ACTION_ACL_CONNECTED)) {
+            checkBox.setChecked(true);
+          } else if (Objects.equals(intent.getAction(), BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
+            checkBox.setChecked(false);
           }
         }
       };
@@ -146,29 +145,20 @@ public class MessageStep {
     stepButton.setOnClickListener(v -> {
       if (ChatAction.CLOSE_APPS.equals(getChatAction())) {
         DialogUtil.showLoadingDialog(context, 700, () -> {
-          showSnackbar(v, "Background apps are closed");
+          DialogUtil.showSnackbar(v, "Background apps are closed");
         });
       } else if (ChatAction.ACTIVATE_SAVING_MODE.equals(getChatAction())) {
         DialogUtil.showLoadingDialog(context, 800, () -> {
-          showSnackbar(v, "Energy saving mode are activated");
+          DialogUtil.showSnackbar(v, "Energy saving mode are activated");
         });
       } else if (ChatAction.MIGRATE_COMPUTATION.equals(getChatAction())) {
         DialogUtil.showLoadingDialog(context, 3000, () -> {
           BatteryDrainerUtil.stop();
-          showSnackbar(v, "Tasks are migrated successfully");
+          DialogUtil.showSnackbar(v, "Tasks are migrated successfully");
         });
       }
       stepButton.setEnabled(false);
     });
-  }
-
-  private void showSnackbar(View view, String message) {
-    Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
-    snackbar.setAction("OK", v -> snackbar.dismiss());
-    snackbar.show();
-
-    // Dismiss the Snackbar automatically after 5 seconds
-    new Handler().postDelayed(snackbar::dismiss, 5000);
   }
 
   private void updateCheckBoxBasedOnBluetoothState(CheckBox checkBox, boolean toOn) {
