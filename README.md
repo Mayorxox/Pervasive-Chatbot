@@ -19,7 +19,7 @@ Chatbot App is an interactive mobile application developed as part of a user stu
 - Android Support Repository
 
 #### Getting Started
-1. Clone this repository: git clone https://github.com/tarlanhasanli/Android-sensor-bot.git
+1. Clone this repository: git clone https://github.com/Mayorxox/Android-sensor-bot.git
 2. Open the project in Android Studio.
 3. Sync the Gradle project and build the project.
 4. Run the app on an emulator or a physical device.
